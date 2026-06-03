@@ -140,8 +140,6 @@
     transition: background 160ms ease;
   }
   .recipe-card:hover { background: var(--panel-soft); }
-
-  /* カード上部：カテゴリ＋技法バッジ */
   .recipe-meta {
     display: flex;
     align-items: center;
@@ -162,9 +160,7 @@
     color: var(--muted);
     border: 1px solid var(--line);
     padding: 1px 6px;
-    text-transform: uppercase;
   }
-
   .recipe-name { margin: 0 0 12px; font-size: 1rem; font-weight: 700; line-height: 1.4; }
   .recipe-ingredients {
     list-style: none;
@@ -206,17 +202,11 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 0;
     padding-bottom: 16px;
     border-bottom: 2px solid var(--line-strong);
   }
   .detail-header-left { flex: 1; }
-  .detail-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 6px;
-  }
+  .detail-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
   .detail-close {
     min-height: 32px;
     padding: 0 12px;
@@ -225,7 +215,6 @@
     color: var(--text);
     font-size: 0.7rem;
     font-weight: 700;
-    letter-spacing: 0.04em;
     cursor: pointer;
     flex-shrink: 0;
     margin-left: 16px;
@@ -234,7 +223,7 @@
   }
   .detail-close:hover { background: var(--panel-soft); }
 
-  /* 詳細モーダル内：技法バナー */
+  /* 技法バナー */
   .detail-method-banner {
     display: flex;
     align-items: center;
@@ -244,18 +233,8 @@
     background: var(--accent);
     color: #fff;
   }
-  .detail-method-banner .method-label {
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    opacity: 0.7;
-  }
-  .detail-method-banner .method-value {
-    font-size: 0.82rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-  }
+  .detail-method-banner .method-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; }
+  .detail-method-banner .method-value { font-size: 0.82rem; font-weight: 700; }
 
   .detail-section-title {
     font-size: 0.62rem;
@@ -299,6 +278,8 @@
     font-weight: 700;
     margin-top: 2px;
   }
+
+  /* バーテンダーのコツ */
   .detail-note {
     margin-top: 14px;
     padding: 12px 14px;
@@ -307,6 +288,27 @@
     font-size: 0.78rem;
     line-height: 1.7;
     color: var(--muted);
+  }
+
+  /* 豆知識・歴史 */
+  .detail-trivia {
+    margin-top: 10px;
+    padding: 14px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--red);
+    font-size: 0.78rem;
+    line-height: 1.75;
+    color: var(--text);
+  }
+  .detail-trivia-label {
+    display: block;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 6px;
   }
 
   .empty-state {
@@ -318,7 +320,6 @@
     border-top: 0;
     margin-top: 16px;
   }
-
   footer {
     color: var(--muted);
     font-size: 0.64rem;
@@ -349,13 +350,12 @@
 </nav>
 
 <main class="app-shell">
-
   <section class="hero">
     <div>
       <p class="brand-mark">Bar Soutsu</p>
       <p class="eyebrow">Cocktail Recipe Book / Gin Speciality</p>
       <h1>カクテルレシピ帳</h1>
-      <p class="lead">Bar Soutsuのカクテルレシピ集です。タップすると材料・技法・手順の詳細が確認できます。</p>
+      <p class="lead">Bar Soutsuのカクテルレシピ集です。タップすると材料・技法・手順・豆知識が確認できます。</p>
     </div>
     <div class="hero-panel" aria-label="レシピ数">
       <span>レシピ数</span>
@@ -365,13 +365,11 @@
   </section>
 
   <nav class="tabs" id="tabs" aria-label="カテゴリ"></nav>
-
   <div class="recipe-grid" id="recipe-grid" aria-label="レシピ一覧"></div>
 
   <footer>
-    ショートカクテルは合計60ml基準。ロングカクテルのジンは30ml基準。タップで詳細が開きます。
+    ショートカクテルは合計60ml基準。ロングカクテルのジンは30ml基準。タップで詳細・豆知識が開きます。
   </footer>
-
 </main>
 
 <!-- 詳細モーダル -->
@@ -382,11 +380,11 @@
         <div class="detail-meta">
           <span class="recipe-cat" id="detail-cat"></span>
         </div>
-        <h2 id="detail-name" style="margin: 0; font-size: 1.2rem; font-weight: 700;"></h2>
+        <h2 id="detail-name" style="margin:0;font-size:1.2rem;font-weight:700;"></h2>
       </div>
       <button class="detail-close" id="detail-close">閉じる</button>
     </div>
-    <div class="detail-method-banner" id="detail-method-banner">
+    <div class="detail-method-banner">
       <span class="method-label">技法</span>
       <span class="method-value" id="detail-method"></span>
     </div>
@@ -394,28 +392,29 @@
     <ul class="detail-ingredients" id="detail-ingredients"></ul>
     <div class="detail-section-title">作り方</div>
     <ol class="detail-steps" id="detail-steps"></ol>
+    <div class="detail-section-title" id="note-title" style="display:none;">バーテンダーのコツ</div>
     <div class="detail-note" id="detail-note" style="display:none;"></div>
+    <div class="detail-section-title" id="trivia-title" style="display:none;">豆知識・歴史</div>
+    <div class="detail-trivia" id="detail-trivia" style="display:none;">
+      <span class="detail-trivia-label">History &amp; Trivia</span>
+      <span id="detail-trivia-text"></span>
+    </div>
   </div>
 </div>
 
 <script>
-/* =========================================================
-   ■ レシピデータ
-   ショートカクテル：合計60ml基準
-   ロングカクテル：ジン30ml基準
-   ========================================================= */
 const RECIPES = [
 
-  /* ─── ショート（合計60ml） ─── */
+  /* ─────────── ショート（合計60ml） ─────────── */
   {
     id: "dry-martini",
     name: "ドライ・マティーニ",
     category: "ショート",
     method: "ステア",
     ingredients: [
-      { name: "ジン",                          amount: "50ml" },
-      { name: "ドライベルモット",              amount: "10ml" },
-      { name: "レモンピール（またはオリーブ）", amount: "適量" },
+      { name: "ジン",                           amount: "50ml" },
+      { name: "ドライベルモット",               amount: "10ml" },
+      { name: "レモンピール（またはオリーブ）",  amount: "適量" },
     ],
     steps: [
       "ミキシンググラスに氷を入れ、十分に冷やす",
@@ -425,6 +424,7 @@ const RECIPES = [
       "レモンピールをひねってアロマを飛ばし、グラスに飾る",
     ],
     note: "シェイクではなくステアが基本。ベルモットの量を減らすほどドライな仕上がりになります。",
+    trivia: "マティーニの起源は諸説あり、1860年代にジェリー・トーマスがサンフランシスコで作ったという説や、イタリアの蒸留会社マルティーニ＆ロッシに由来するという説など今も議論が続きます。「カクテルの王様」として世界中のバーで愛され、ウィンストン・チャーチルは「ベルモットのボトルをちらりと見るだけでよい」と豪語したことでも有名。ジェームズ・ボンドの「シェイクしてステアせずに」というオーダーは、映画と原作で逆の表現になっているという細かい議論もファンの間では尽きません。",
   },
   {
     id: "negroni",
@@ -444,6 +444,7 @@ const RECIPES = [
       "オレンジピールをひねって香りを飛ばし、グラスに飾る",
     ],
     note: "3種類を等量で合わせる王道レシピ。使うジンの個性がそのまま出るので、銘柄を変えて楽しめます。",
+    trivia: "1919年、フィレンツェのバー「カフェ・カソーニ」でカミッロ・ネグローニ伯爵が「アメリカーノのソーダをジンに替えてくれ」と注文したのが始まりとされています。伯爵はアメリカ滞在中にカウボーイとして暮らした経験を持ち、それがこの豪快なオーダーにつながったとも。バリエーションも豊富で、ジンの代わりにスパークリングワインを使う「スプモーニ」や、バーボンを使う「ボルバーディ」なども人気です。",
   },
   {
     id: "gimlet",
@@ -451,8 +452,8 @@ const RECIPES = [
     category: "ショート",
     method: "シェイク",
     ingredients: [
-      { name: "ジン",                       amount: "45ml" },
-      { name: "フレッシュライムジュース",   amount: "15ml" },
+      { name: "ジン",                     amount: "45ml" },
+      { name: "フレッシュライムジュース", amount: "15ml" },
     ],
     steps: [
       "シェイカーに氷を入れる",
@@ -460,7 +461,8 @@ const RECIPES = [
       "しっかりシェイクする（10〜12秒）",
       "冷やしたカクテルグラスにダブルストレインで注ぐ",
     ],
-    note: "フレッシュライムを使うと風味が格段に向上します。甘みが欲しい場合はシュガーシロップ 5ml（グラス外の調整）を加えてください。",
+    note: "フレッシュライムを使うと風味が格段に向上します。甘みが欲しい場合はシュガーシロップ 5ml を加えてください。",
+    trivia: "19世紀のイギリス海軍軍医トーマス・ギムレット卿が、壊血病予防のためにジンにライムジュースを混ぜて飲ませたのが起源とされています。レイモンド・チャンドラーの推理小説「長いお別れ（The Long Goodbye）」には「本物のギムレットはジンとローズのライムジュースを半々に合わせたものだ」という有名な一節があり、これが世界中の読書家にギムレットを広めるきっかけとなりました。",
   },
   {
     id: "last-word",
@@ -480,6 +482,7 @@ const RECIPES = [
       "冷やしたカクテルグラスに注ぐ",
     ],
     note: "4種類が完全に等量という潔いレシピ。禁酒法時代生まれの歴史ある一杯です。",
+    trivia: "1920年代の禁酒法時代、デトロイト・アスレティック・クラブで生まれたとされています。長らく忘れられたレシピでしたが、2004年にシアトルのバーテンダー、マレー・ステンソンがテッド・ハイに紹介したことで世界中に再普及。「失われたカクテルの復活」という現代クラシックの代表例として語られます。シャルトリューズは修道士が製法を守り続ける唯一無二のリキュールであり、入手困難になることもあるレアな一面も持ちます。",
   },
   {
     id: "clover-club",
@@ -487,10 +490,10 @@ const RECIPES = [
     category: "ショート",
     method: "ドライシェイク → シェイク",
     ingredients: [
-      { name: "ジン",               amount: "40ml" },
+      { name: "ジン",                     amount: "40ml" },
       { name: "フレッシュレモンジュース", amount: "12ml" },
-      { name: "ラズベリーシロップ", amount: "8ml" },
-      { name: "卵白",               amount: "1個分" },
+      { name: "ラズベリーシロップ",       amount: "8ml" },
+      { name: "卵白",                     amount: "1個分" },
     ],
     steps: [
       "シェイカーに氷なしで全材料を入れる",
@@ -500,6 +503,7 @@ const RECIPES = [
       "泡の上にラズベリーを飾る",
     ],
     note: "ドライシェイクで卵白を十分に泡立てるのがポイント。きめ細かいムースのような口当たりになります。",
+    trivia: "1882年から1920年代にかけて、フィラデルフィアのベルビュー・ストラトフォードホテルで開かれていた紳士社交クラブ「クローバー・クラブ」にちなんで命名されました。メンバーは弁護士・ジャーナリスト・作家など当時のエリートたち。禁酒法施行とともにクラブが消え、カクテルも一時忘れられましたが、2000年代のクラフトカクテルブームで見事に復活した一杯です。",
   },
   {
     id: "white-lady",
@@ -507,9 +511,9 @@ const RECIPES = [
     category: "ショート",
     method: "シェイク",
     ingredients: [
-      { name: "ジン",                       amount: "30ml" },
-      { name: "コアントロー",               amount: "20ml" },
-      { name: "フレッシュレモンジュース",   amount: "10ml" },
+      { name: "ジン",                     amount: "30ml" },
+      { name: "コアントロー",             amount: "20ml" },
+      { name: "フレッシュレモンジュース", amount: "10ml" },
     ],
     steps: [
       "シェイカーに氷を入れる",
@@ -518,6 +522,7 @@ const RECIPES = [
       "冷やしたカクテルグラスに注ぐ",
     ],
     note: "マルガリータのジン版とも言われるクラシック。透き通った白いルックスが美しい定番カクテルです。",
+    trivia: "1919年、ロンドンのシロズ・クラブでハリー・マッケルホーンによって考案されました。当初はミントリキュールを使っていましたが、のちにパリ「ハリーズ・ニューヨーク・バー」でコアントローを使うレシピに改良されました。「白い貴婦人」の名の通り、透き通った清涼感のある見た目が当時の社交界で大ヒット。卵白を加えるバリエーションも存在し、より滑らかな口当たりになります。",
   },
   {
     id: "aviation",
@@ -525,9 +530,9 @@ const RECIPES = [
     category: "ショート",
     method: "シェイク",
     ingredients: [
-      { name: "ジン",                       amount: "40ml" },
-      { name: "フレッシュレモンジュース",   amount: "15ml" },
-      { name: "マラスキーノ",               amount: "5ml" },
+      { name: "ジン",                     amount: "40ml" },
+      { name: "フレッシュレモンジュース", amount: "15ml" },
+      { name: "マラスキーノ",             amount: "5ml" },
     ],
     steps: [
       "シェイカーに氷を入れる",
@@ -537,6 +542,7 @@ const RECIPES = [
       "マラスキーノチェリーを飾る",
     ],
     note: "クレーム・ド・ヴィオレット（スミレのリキュール）5mlを加えると、空を思わせる薄紫色の「本来のアビエーション」になります。",
+    trivia: "1916年、ニューヨーク「ホテル・ウォリック」のバーテンダー、ヒューゴ・エンスリンが著書『Recipes for Mixed Drinks』で初公開したレシピです。「飛行（Aviation）」という名前は、当時の航空ブームにちなんでいます。本来はクレーム・ド・ヴィオレットが入りますが、20世紀後半に同リキュールが市場から消え、長らく再現不可能な「幻のカクテル」とされていました。2007年にReynolds Family Wineryが製造を再開し、現在は本来の空色レシピが世界中で復活しています。",
   },
   {
     id: "bees-knees",
@@ -555,9 +561,134 @@ const RECIPES = [
       "冷やしたカクテルグラスにダブルストレインで注ぐ",
     ],
     note: "禁酒法時代、ジンの雑味を隠すために生まれたとも言われています。蜂蜜の柔らかな甘みとレモンの酸味が調和した一杯。",
+    trivia: "1920年代の禁酒法時代、粗悪な密造ジン（バスタブジン）の風味を蜂蜜とレモンで誤魔化すために生まれたとされています。「Bee's Knees（ビーズ・ニーズ）」とは当時の俗語で「最高のもの」を意味しました。フラッパー（断髪・短スカートの新世代女性）たちが秘密のスピークイージー（もぐり酒場）でこぞって飲んでいたとも伝えられており、時代の空気が詰まった一杯です。",
+  },
+  {
+    id: "martinez",
+    name: "マルティネス",
+    category: "ショート",
+    method: "ステア",
+    ingredients: [
+      { name: "ジン",                   amount: "45ml" },
+      { name: "スイートベルモット",     amount: "15ml" },
+      { name: "マラスキーノ",           amount: "2 dashes" },
+      { name: "アンゴスチュラビターズ", amount: "1 dash" },
+      { name: "レモンピール",           amount: "適量" },
+    ],
+    steps: [
+      "ミキシンググラスに氷を入れ、十分に冷やす",
+      "全材料を注ぐ",
+      "バースプーンで15〜20秒ゆっくりステアする",
+      "冷やしたカクテルグラスに注ぐ",
+      "レモンピールをひねってアロマを飛ばし、グラスに飾る",
+    ],
+    note: "スイートベルモットを使うことでマティーニより丸みのある味わいになります。",
+    trivia: "マティーニの「祖先」とも呼ばれる19世紀生まれのカクテル。1887年にジェリー・トーマスの著書に掲載されたレシピが最も有名です。カリフォルニア州マルティネス市が発祥の地と主張していますが、ニューヨーク説も根強く、いまなお論争中。当時のジンは現代より甘く、スイートベルモットとのバランスが絶妙でした。マティーニへの進化の過程でドライベルモットが使われるようになり、徐々に現在のスタイルへと変わっていったとされています。",
+  },
+  {
+    id: "hanky-panky",
+    name: "ハンキー・パンキー",
+    category: "ショート",
+    method: "ステア",
+    ingredients: [
+      { name: "ジン",                     amount: "30ml" },
+      { name: "スイートベルモット",       amount: "30ml" },
+      { name: "フェルネット・ブランカ",   amount: "3 dashes" },
+      { name: "オレンジピール",           amount: "適量" },
+    ],
+    steps: [
+      "ミキシンググラスに氷を入れ、十分に冷やす",
+      "全材料を注ぐ",
+      "バースプーンで15秒ほどステアする",
+      "冷やしたカクテルグラスに注ぐ",
+      "オレンジピールをひねって香りを飛ばし、飾る",
+    ],
+    note: "フェルネットのほろ苦さが全体を引き締めます。",
+    trivia: "ロンドン・サボイホテルのアメリカン・バーで初の女性ヘッドバーテンダーとなったエイダ・コールマン（1903〜1926年在任）が、喜劇俳優チャールズ・ホートリーのために作ったカクテルです。一口飲んだホートリーが「By Jove! That is the real hanky-panky!（これぞ本物の素晴らしさだ！）」と叫んだことがそのまま名前になったと伝えられています。コールマンは女性バーテンダーの先駆者として今もカクテル界に語り継がれています。",
+  },
+  {
+    id: "alaska",
+    name: "アラスカ",
+    category: "ショート",
+    method: "ステア",
+    ingredients: [
+      { name: "ジン",                      amount: "50ml" },
+      { name: "イエロー・シャルトリューズ", amount: "10ml" },
+      { name: "オレンジビターズ",          amount: "2 dashes" },
+      { name: "レモンピール",              amount: "適量" },
+    ],
+    steps: [
+      "ミキシンググラスに氷を入れ、十分に冷やす",
+      "全材料を注ぐ",
+      "バースプーンで15〜20秒ゆっくりステアする",
+      "冷やしたカクテルグラスに注ぐ",
+      "レモンピールをひねってアロマを飛ばし、飾る",
+    ],
+    note: "シャルトリューズはグリーンより穏やかなイエローを使います。ジンのボタニカルとハーブリキュールが溶け合う上品な一杯。",
+    trivia: "1930年にサボイホテルのハリー・クラドックが著した『The Savoy Cocktail Book』に登場するレシピです。なぜ「アラスカ」という名前なのかは謎のままで、クラドック自身も「おそらくアラスカのように澄んでいて清らかだから、と思うが確証はない」と記しています。イエロー・シャルトリューズはフランス・グルノーブル近郊の修道院で作られるリキュールで、レシピは修道士130人のうちわずか2〜3人しか知らないとされています。",
+  },
+  {
+    id: "corpse-reviver-2",
+    name: "コープス・リバイバー #2",
+    category: "ショート",
+    method: "シェイク",
+    ingredients: [
+      { name: "ジン",                               amount: "15ml" },
+      { name: "コアントロー",                       amount: "15ml" },
+      { name: "リレ・ブラン（またはドライベルモット）", amount: "15ml" },
+      { name: "フレッシュレモンジュース",           amount: "15ml" },
+      { name: "アブサン",                           amount: "少量（グラスをリンス）" },
+    ],
+    steps: [
+      "カクテルグラスにアブサンを少量注ぎ、グラスを傾けて内側をコーティングし、余分は捨てる（アブサンリンス）",
+      "シェイカーに氷を入れる",
+      "アブサン以外の材料を注ぐ",
+      "しっかりシェイクする（10〜12秒）",
+      "アブサンリンスしたグラスにダブルストレインで注ぐ",
+    ],
+    note: "4等分の均整美が魅力です。アブサンの量はほんのわずかで十分です。",
+    trivia: "1930年の『The Savoy Cocktail Book』に掲載されたレシピで、ハリー・クラドックはこのカクテルについて「4杯を立て続けに飲むと、再び死者を眠りにつかせるでしょう」という名言を残しています。「コープス・リバイバー（死者をよみがえらせるもの）」シリーズには#1もあり、こちらはブランデーベース。かつてはアブサンが高アルコール・幻覚作用の疑いで多くの国で禁止されていましたが、現在は解禁され、ほろ苦いアニスの風味が再び楽しめます。",
+  },
+  {
+    id: "bramble",
+    name: "ブラムブル",
+    category: "ショート",
+    method: "シェイク＋ビルド",
+    ingredients: [
+      { name: "ジン",                                       amount: "40ml" },
+      { name: "フレッシュレモンジュース",                   amount: "15ml" },
+      { name: "シュガーシロップ",                           amount: "5ml" },
+      { name: "クレーム・ド・ミュール（ブラックベリーリキュール）", amount: "適量（フロート）" },
+      { name: "ブラックベリー・レモンスライス",             amount: "飾り用" },
+    ],
+    steps: [
+      "シェイカーに氷・ジン・レモンジュース・シロップを入れてシェイクする",
+      "クラッシュアイスを山盛りにしたロックグラスに注ぐ",
+      "クレーム・ド・ミュールをゆっくりと上からかけてフロートさせる",
+      "ブラックベリーとレモンスライスで飾る",
+    ],
+    note: "紫が滴り落ちるビジュアルも魅力。クラッシュアイスを山盛りにすることで美しいグラデーションが生まれます。",
+    trivia: "1984年、ロンドンのバー「フレッズ・クラブ」でディック・ブラッドセルが考案したモダンクラシックです。ブラッドセルはその後「エスプレッソ・マティーニ」も生み出しており、現代カクテル界の巨人として知られます。「Bramble（ブラムブル）」とはブラックベリーが実るイバラの茂みのこと。イギリス各地に野生のブラックベリーが生える風景を思って名づけたとされています。誕生からわずか40年で世界中のバーに定着した、現代最速のクラシックのひとつです。",
+  },
+  {
+    id: "pink-gin",
+    name: "ピンク・ジン",
+    category: "ショート",
+    method: "ビルド",
+    ingredients: [
+      { name: "ジン",                   amount: "55ml" },
+      { name: "アンゴスチュラビターズ", amount: "3〜4 dashes" },
+    ],
+    steps: [
+      "カクテルグラスにアンゴスチュラビターズを数滴垂らし、グラスを傾けて内側をコーティングする",
+      "余分なビターズは捨てる",
+      "氷で冷やしたジンをグラスに注ぐ",
+    ],
+    note: "材料2つ、ジンそのものの品質がそのまま出るため、銘柄選びが肝心です。",
+    trivia: "19世紀のイギリス海軍で生まれたカクテルです。軍医がアンゴスチュラビターズを胃腸薬として処方していたところ、船員たちが「薬として」ジンで割り始めたのが起源とされています。プリマス・ジンとの相性が特によいとされており、現在もプリマス・ジンのラベルには「ピンク・ジンに最適」と記されています。当時の大英帝国の船が寄港した世界中の港町でこのスタイルが広まり、植民地時代のカクテル文化の象徴とも言える一杯です。",
   },
 
-  /* ─── ロング（ジン30ml基準） ─── */
+  /* ─────────── ロング（ジン30ml基準） ─────────── */
   {
     id: "gin-tonic",
     name: "ジン＆トニック",
@@ -576,6 +707,7 @@ const RECIPES = [
       "ライムをグラスの縁に飾る",
     ],
     note: "トニックを高い位置から注ぐと炭酸が抜けます。グラスの縁に沿わせて低く注ぐのがポイント。",
+    trivia: "インドに駐留していたイギリス兵がマラリア予防薬・キニーネ（トニックウォーターの苦味成分）の苦味を紛らわすためにジンと混ぜたのが起源とされています。いわば「薬として飲んでいたら美味しかった」という歴史を持つカクテル。スペインでは1930年代から「Copa de Balon」という大きなバルーングラスで提供するスタイルが定着し、現在はクラフトジン×プレミアムトニックの組み合わせが世界的ブームとなっています。",
   },
   {
     id: "tom-collins",
@@ -583,10 +715,10 @@ const RECIPES = [
     category: "ロング",
     method: "シェイク＋ビルド",
     ingredients: [
-      { name: "ジン",                   amount: "30ml" },
+      { name: "ジン",                     amount: "30ml" },
       { name: "フレッシュレモンジュース", amount: "20ml" },
-      { name: "シュガーシロップ",       amount: "10ml" },
-      { name: "ソーダ水",               amount: "60ml" },
+      { name: "シュガーシロップ",         amount: "10ml" },
+      { name: "ソーダ水",                 amount: "60ml" },
       { name: "レモンスライス・チェリー", amount: "各1個" },
     ],
     steps: [
@@ -596,6 +728,7 @@ const RECIPES = [
       "バースプーンで一度だけ軽く混ぜ、レモンとチェリーで飾る",
     ],
     note: "爽やかなレモンの酸味とソーダの炭酸が心地よい夏の定番。ジン・フィズの兄弟分です。",
+    trivia: "1874年にアメリカで流行した「トム・コリンズ詐欺」が名前の由来という説があります。当時「トム・コリンズというやつがあなたの悪口を言っていたよ」と嘘をついて人を驚かせるいたずらが大流行し、「トム・コリンズはどこにいるんだ！」という状況を逆手に取ってバーテンダーが「ここにいるよ」とカクテルを提供したとも言われています。コリンズグラスという背の高いグラスの名前もこのカクテルに由来しています。",
   },
   {
     id: "gin-fizz",
@@ -603,17 +736,18 @@ const RECIPES = [
     category: "ロング",
     method: "シェイク＋ビルド",
     ingredients: [
-      { name: "ジン",                   amount: "30ml" },
+      { name: "ジン",                     amount: "30ml" },
       { name: "フレッシュレモンジュース", amount: "15ml" },
-      { name: "シュガーシロップ",       amount: "10ml" },
-      { name: "ソーダ水",               amount: "60ml" },
+      { name: "シュガーシロップ",         amount: "10ml" },
+      { name: "ソーダ水",                 amount: "60ml" },
     ],
     steps: [
       "シェイカーに氷・ジン・レモンジュース・シロップを入れてしっかりシェイクする",
       "氷なしのタンブラーグラスに注ぐ（ここがトム・コリンズとの違い）",
       "ソーダ水を加えて完成",
     ],
-    note: "氷なし・ガーニッシュなしがフィズの正式なスタイル。ひんやりとしたシェイク液にソーダが溶け込み、スッキリとした飲み口になります。",
+    note: "氷なし・ガーニッシュなしがフィズの正式なスタイル。ひんやりとしたシェイク液にソーダが溶け込みます。",
+    trivia: "「フィズ（Fizz）」という名前はソーダが発するシュワシュワという音から来ています。19世紀後半のアメリカで生まれたカクテルスタイルで、1888年にニューオーリンズのヘンリー・C・ラモスが卵白・生クリーム入りの「ラモス・ジン・フィズ」を発明したことで一気に有名になりました。ジン・フィズをベースにバリエーションが無数に存在し、「シルバー・フィズ（卵白入り）」「ゴールデン・フィズ（卵黄入り）」「ロイヤル・フィズ（全卵入り）」と名前が変わります。",
   },
   {
     id: "french-75",
@@ -621,11 +755,11 @@ const RECIPES = [
     category: "ロング",
     method: "シェイク＋ビルド",
     ingredients: [
-      { name: "ジン",                   amount: "30ml" },
-      { name: "フレッシュレモンジュース", amount: "15ml" },
-      { name: "シュガーシロップ",       amount: "5ml" },
+      { name: "ジン",                           amount: "30ml" },
+      { name: "フレッシュレモンジュース",       amount: "15ml" },
+      { name: "シュガーシロップ",               amount: "5ml" },
       { name: "シャンパン（スパークリングワイン）", amount: "60ml" },
-      { name: "レモンピール",           amount: "適量" },
+      { name: "レモンピール",                   amount: "適量" },
     ],
     steps: [
       "シェイカーに氷・ジン・レモンジュース・シロップを入れてシェイクする",
@@ -633,7 +767,8 @@ const RECIPES = [
       "冷えたシャンパンをゆっくり注ぎ足す",
       "レモンピールをひねって香りを飛ばし、グラスに飾る",
     ],
-    note: "第一次世界大戦のフランス軍75mm砲になぞらえた名前。お祝いの席でも映える華やかな一杯。",
+    note: "お祝いの席でも映える華やかな一杯。シャンパンは冷やしたものを直前に開けて使います。",
+    trivia: "第一次世界大戦中のフランス軍が使用した75mm野砲「キャノン・ド・75」にちなんで命名されました。「一発で敵を倒す破壊力」になぞらえたもので、1927年の書籍『Here's How』に初登場。パリの伝説的バー「ハリーズ・ニューヨーク・バー」が広めたとも言われています。現在は「ニューオーリンズ版」としてコニャックベースのレシピも存在し、コニャック協会とジン愛好家の間で「どちらが本物か」という楽しい論争が続いています。",
   },
   {
     id: "gin-buck",
@@ -641,10 +776,10 @@ const RECIPES = [
     category: "ロング",
     method: "ビルド",
     ingredients: [
-      { name: "ジン",                      amount: "30ml" },
-      { name: "フレッシュライムジュース",  amount: "15ml" },
+      { name: "ジン",                                   amount: "30ml" },
+      { name: "フレッシュライムジュース",               amount: "15ml" },
       { name: "ジンジャービア（またはジンジャーエール）", amount: "90ml" },
-      { name: "ライム（くし切り）",        amount: "1切れ" },
+      { name: "ライム（くし切り）",                     amount: "1切れ" },
     ],
     steps: [
       "ハイボールグラスに氷を入れる",
@@ -652,130 +787,9 @@ const RECIPES = [
       "ジンジャービアをグラスの縁に沿ってゆっくり注ぐ",
       "一度だけ軽く混ぜ、ライムを飾る",
     ],
-    note: "ジンジャービアはジンジャーエールより辛みが強く、スパイシーな仕上がりになります。モスコミュールのジン版とも言えます。",
+    note: "ジンジャービアはジンジャーエールより辛みが強く、スパイシーな仕上がりになります。",
+    trivia: "「バック（Buck）」スタイルとは「スピリッツ＋柑橘果汁＋ジンジャービア」の組み合わせで、1900年代初頭のアメリカで生まれました。ウォッカで作ると「モスコー・ミュール」になり、バーボンで作ると「ケンタッキー・ミュール」になります。ジン・バックはその中でも最もクラシックなバリエーションとされており、クラフトジンのボタニカルとジンジャーのスパイスが絶妙に絡み合います。",
   },
-
-  /* ─── ショート追加（合計60ml） ─── */
-  {
-    id: "martinez",
-    name: "マルティネス",
-    category: "ショート",
-    method: "ステア",
-    ingredients: [
-      { name: "ジン",               amount: "45ml" },
-      { name: "スイートベルモット", amount: "15ml" },
-      { name: "マラスキーノ",       amount: "2 dashes" },
-      { name: "アンゴスチュラビターズ", amount: "1 dash" },
-      { name: "レモンピール",       amount: "適量" },
-    ],
-    steps: [
-      "ミキシンググラスに氷を入れ、十分に冷やす",
-      "全材料を注ぐ",
-      "バースプーンで15〜20秒ゆっくりステアする",
-      "冷やしたカクテルグラスに注ぐ",
-      "レモンピールをひねってアロマを飛ばし、グラスに飾る",
-    ],
-    note: "マティーニの原型とも言われる19世紀生まれのカクテル。スイートベルモットを使うことでマティーニより丸みのある味わいになります。",
-  },
-  {
-    id: "hanky-panky",
-    name: "ハンキー・パンキー",
-    category: "ショート",
-    method: "ステア",
-    ingredients: [
-      { name: "ジン",               amount: "30ml" },
-      { name: "スイートベルモット", amount: "30ml" },
-      { name: "フェルネット・ブランカ", amount: "3 dashes" },
-      { name: "オレンジピール",     amount: "適量" },
-    ],
-    steps: [
-      "ミキシンググラスに氷を入れ、十分に冷やす",
-      "全材料を注ぐ",
-      "バースプーンで15秒ほどステアする",
-      "冷やしたカクテルグラスに注ぐ",
-      "オレンジピールをひねって香りを飛ばし、飾る",
-    ],
-    note: "1920年代ロンドン、サボイホテルの女性バーテンダーによって考案された一杯。フェルネットのほろ苦さが全体を引き締めます。",
-  },
-  {
-    id: "alaska",
-    name: "アラスカ",
-    category: "ショート",
-    method: "ステア",
-    ingredients: [
-      { name: "ジン",                  amount: "50ml" },
-      { name: "イエロー・シャルトリューズ", amount: "10ml" },
-      { name: "オレンジビターズ",      amount: "2 dashes" },
-      { name: "レモンピール",          amount: "適量" },
-    ],
-    steps: [
-      "ミキシンググラスに氷を入れ、十分に冷やす",
-      "全材料を注ぐ",
-      "バースプーンで15〜20秒ゆっくりステアする",
-      "冷やしたカクテルグラスに注ぐ",
-      "レモンピールをひねってアロマを飛ばし、飾る",
-    ],
-    note: "シャルトリューズはグリーン（緑）より穏やかなイエロー（黄）を使います。ジンのボタニカルとハーブリキュールが溶け合う上品な一杯。",
-  },
-  {
-    id: "corpse-reviver-2",
-    name: "コープス・リバイバー #2",
-    category: "ショート",
-    method: "シェイク",
-    ingredients: [
-      { name: "ジン",         amount: "15ml" },
-      { name: "コアントロー", amount: "15ml" },
-      { name: "リレ・ブラン（またはドライベルモット）", amount: "15ml" },
-      { name: "フレッシュレモンジュース", amount: "15ml" },
-      { name: "アブサン",     amount: "少量（グラスをリンス）" },
-    ],
-    steps: [
-      "カクテルグラスにアブサンを少量注ぎ、グラスを傾けて内側をコーティングし、余分は捨てる（アブサンリンス）",
-      "シェイカーに氷を入れる",
-      "アブサン以外の材料を注ぐ",
-      "しっかりシェイクする（10〜12秒）",
-      "アブサンリンスしたグラスにダブルストレインで注ぐ",
-    ],
-    note: "「死者をよみがえらせる」という名の通り、二日酔いの朝に飲まれたとされる伝説のカクテル。4等分の均整美が魅力です。",
-  },
-  {
-    id: "bramble",
-    name: "ブラムブル",
-    category: "ショート",
-    method: "シェイク＋ビルド",
-    ingredients: [
-      { name: "ジン",                   amount: "40ml" },
-      { name: "フレッシュレモンジュース", amount: "15ml" },
-      { name: "シュガーシロップ",       amount: "5ml" },
-      { name: "クレーム・ド・ミュール（ブラックベリーリキュール）", amount: "適量（フロート）" },
-      { name: "ブラックベリー・レモンスライス", amount: "飾り用" },
-    ],
-    steps: [
-      "シェイカーに氷・ジン・レモンジュース・シロップを入れてシェイクする",
-      "クラッシュアイスを山盛りにしたロックグラスに注ぐ",
-      "クレーム・ド・ミュールをゆっくりと上からかけてフロートさせる",
-      "ブラックベリーとレモンスライスで飾る",
-    ],
-    note: "ロンドンのバーテンダー、ディック・ブラッドセルが1980年代に考案したモダンクラシック。紫が滴り落ちるビジュアルも魅力です。",
-  },
-  {
-    id: "pink-gin",
-    name: "ピンク・ジン",
-    category: "ショート",
-    method: "ビルド",
-    ingredients: [
-      { name: "ジン",                   amount: "55ml" },
-      { name: "アンゴスチュラビターズ", amount: "3〜4 dashes" },
-    ],
-    steps: [
-      "カクテルグラスにアンゴスチュラビターズを数滴垂らし、グラスを傾けて内側をコーティングする",
-      "余分なビターズは捨てる",
-      "氷で冷やしたジンをグラスに注ぐ",
-    ],
-    note: "19世紀のイギリス海軍で生まれた最もシンプルなジンカクテルのひとつ。ジンそのものの品質がそのまま出るため、銘柄選びが肝心です。",
-  },
-
-  /* ─── ロング追加（ジン30ml基準） ─── */
   {
     id: "singapore-sling",
     name: "シンガポール・スリング",
@@ -797,7 +811,8 @@ const RECIPES = [
       "氷を入れたコリンズグラスに注ぐ",
       "パイナップルスライスとチェリーで飾る",
     ],
-    note: "1915年頃、シンガポールのラッフルズホテルで誕生した世界的名作。材料は多いですが、一度覚えれば鮮やかなピンク色が映える華やかな一杯です。",
+    note: "材料は多いですが、一度覚えれば鮮やかなピンク色が映える華やかな一杯です。",
+    trivia: "1915年頃、シンガポールのラッフルズホテル「ロング・バー」のバーテンダー、ニャム・トン・ブーンが考案したとされています。当時、女性が公の場でアルコールを飲むことがはばかられる文化だったため、フルーツジュースに見えるように工夫されたとも言われています。ラッフルズホテルはレシピを秘伝としてきましたが、時代とともに様々なバリエーションが生まれました。床に落花生の殻を捨てることが伝統のロング・バーは今も観光名所として多くの人が訪れます。",
   },
   {
     id: "gin-basil-smash",
@@ -805,10 +820,10 @@ const RECIPES = [
     category: "ロング",
     method: "マドル＋シェイク",
     ingredients: [
-      { name: "ジン",                   amount: "30ml" },
+      { name: "ジン",                     amount: "30ml" },
       { name: "フレッシュレモンジュース", amount: "15ml" },
-      { name: "シュガーシロップ",       amount: "10ml" },
-      { name: "フレッシュバジル",       amount: "8〜10枚" },
+      { name: "シュガーシロップ",         amount: "10ml" },
+      { name: "フレッシュバジル",         amount: "8〜10枚" },
     ],
     steps: [
       "シェイカーにバジルを入れ、マドラーで軽く押しつぶす（強くつぶしすぎると苦味が出るので注意）",
@@ -817,7 +832,8 @@ const RECIPES = [
       "氷を入れたロックグラスにダブルストレインで注ぐ",
       "バジルの葉を飾る",
     ],
-    note: "2008年にハンブルクのバーテンダー、イェルク・マイヤーが考案したモダンクラシック。フレッシュバジルの香りがジンのボタニカルと見事に調和します。",
+    note: "バジルは軽く押す程度に。強くつぶすと青臭い苦味が出ます。",
+    trivia: "2008年、ハンブルクのバー「ル・リオン」のバーテンダー、イェルク・マイヤーが考案。ある夜、庭で採れたバジルをどうにかカクテルに使えないかと思い立ち、即興で作ったのがこのレシピです。SNSが普及し始めた時代に写真映えする鮮やかなグリーンが話題を呼び、わずか数年で世界中のバーに広まりました。「2000年代以降に生まれたカクテルで最も成功した一杯」とも評されており、現代のクラフトカクテル革命を象徴する存在です。",
   },
   {
     id: "ramos-gin-fizz",
@@ -825,14 +841,14 @@ const RECIPES = [
     category: "ロング",
     method: "ロングシェイク＋ビルド",
     ingredients: [
-      { name: "ジン",                   amount: "30ml" },
+      { name: "ジン",                     amount: "30ml" },
       { name: "フレッシュレモンジュース", amount: "10ml" },
       { name: "フレッシュライムジュース", amount: "10ml" },
-      { name: "シュガーシロップ",       amount: "10ml" },
-      { name: "生クリーム",             amount: "30ml" },
-      { name: "卵白",                   amount: "1個分" },
+      { name: "シュガーシロップ",         amount: "10ml" },
+      { name: "生クリーム",               amount: "30ml" },
+      { name: "卵白",                     amount: "1個分" },
       { name: "オレンジフラワーウォーター", amount: "3 dashes" },
-      { name: "ソーダ水",               amount: "60ml" },
+      { name: "ソーダ水",                 amount: "60ml" },
     ],
     steps: [
       "シェイカーに氷なしで全材料（ソーダ以外）を入れ、ドライシェイクする（30秒ほど）",
@@ -840,7 +856,8 @@ const RECIPES = [
       "氷なしのコリンズグラスに注ぐ",
       "ソーダ水を静かに注ぎ、泡を立ち上げる",
     ],
-    note: "19世紀ニューオーリンズ生まれ。長時間シェイクすることで生クリームと卵白が完全に乳化し、絹のような口当たりになります。提供まで時間がかかることもバーの風物詩です。",
+    note: "長時間シェイクすることで生クリームと卵白が完全に乳化し、絹のような口当たりになります。",
+    trivia: "1888年、ニューオーリンズのバーテンダー、ヘンリー・C・ラモスが「インペリアル・キャビネット・サルーン」で考案。マルディグラ（謝肉祭）の時期には需要が殺到し、20人以上のバーテンダーがリレー式でシェイクし続けたという逸話が残っています。「正しいラモスは12分シェイクすべき」という声もあるほど手間がかかるカクテルですが、その分フワフワの泡と絹のような口当たりが格別。禁酒法時代にルイジアナ州知事がワシントンD.C.まで出向いて「禁酒法はひどい、ラモスが飲めない」と訴えたという伝説もあります。",
   },
   {
     id: "gin-sour",
@@ -848,19 +865,20 @@ const RECIPES = [
     category: "ロング",
     method: "シェイク",
     ingredients: [
-      { name: "ジン",                   amount: "30ml" },
+      { name: "ジン",                     amount: "30ml" },
       { name: "フレッシュレモンジュース", amount: "15ml" },
-      { name: "シュガーシロップ",       amount: "10ml" },
-      { name: "卵白（お好みで）",       amount: "1個分" },
-      { name: "アンゴスチュラビターズ", amount: "少量（仕上げ）" },
+      { name: "シュガーシロップ",         amount: "10ml" },
+      { name: "卵白（お好みで）",         amount: "1個分" },
+      { name: "アンゴスチュラビターズ",   amount: "少量（仕上げ）" },
     ],
     steps: [
       "卵白を使う場合は、先にドライシェイクして泡立てる",
       "シェイカーに氷・ジン・レモンジュース・シロップを入れてしっかりシェイクする",
       "氷を入れたオールドファッションドグラスに注ぐ",
-      "仕上げにビターズを数滴たらす",
+      "仕上げにビターズを数滴たらし、ピックで模様を描く",
     ],
-    note: "サワースタイルの基本形。卵白を加えるとシルキーな口当たりになります。ビターズの模様をカクテルピックで描くとおしゃれな仕上がりに。",
+    note: "卵白を加えるとシルキーな口当たりになります。ビターズの模様をカクテルピックで描くとおしゃれです。",
+    trivia: "「サワー（Sour）」はカクテルの最も基本的なスタイルのひとつで、「スピリッツ＋柑橘果汁＋甘味」という構成は1860年代のジェリー・トーマスの著書にすでに登場しています。ウイスキー・サワー・アマレット・サワーなど派生は無数にありますが、ジン・サワーはその原点。2000年代以降は卵白を入れる「ニュー・スタイル」が主流となり、白い泡の上にビターズで模様を描く「ビターズアート」はインスタグラムでも人気のビジュアルになっています。",
   },
 ];
 
@@ -875,9 +893,6 @@ const CATEGORIES = [
 
 let currentCategory = "all";
 
-/* =========================================================
-   ■ 描画
-   ========================================================= */
 function getFilteredRecipes() {
   return currentCategory === "all"
     ? RECIPES
@@ -920,9 +935,6 @@ function renderRecipes() {
   });
 }
 
-/* =========================================================
-   ■ 詳細モーダル
-   ========================================================= */
 function openDetail(id) {
   const recipe = RECIPES.find((r) => r.id === id);
   if (!recipe) return;
@@ -939,12 +951,27 @@ function openDetail(id) {
     .map((s) => `<li><span>${escHtml(s)}</span></li>`)
     .join("");
 
+  const noteTitle = document.getElementById("note-title");
   const noteEl = document.getElementById("detail-note");
   if (recipe.note) {
+    noteTitle.style.display = "";
     noteEl.textContent = recipe.note;
     noteEl.style.display = "";
   } else {
+    noteTitle.style.display = "none";
     noteEl.style.display = "none";
+  }
+
+  const triviaTitle = document.getElementById("trivia-title");
+  const triviaEl = document.getElementById("detail-trivia");
+  const triviaText = document.getElementById("detail-trivia-text");
+  if (recipe.trivia) {
+    triviaTitle.style.display = "";
+    triviaText.textContent = recipe.trivia;
+    triviaEl.style.display = "";
+  } else {
+    triviaTitle.style.display = "none";
+    triviaEl.style.display = "none";
   }
 
   document.getElementById("detail-overlay").classList.add("open");
@@ -956,9 +983,6 @@ function closeDetail() {
   document.body.style.overflow = "";
 }
 
-/* =========================================================
-   ■ タブ
-   ========================================================= */
 function renderTabs() {
   const tabsEl = document.getElementById("tabs");
   CATEGORIES.forEach((cat, i) => {
@@ -981,9 +1005,6 @@ function escHtml(str) {
     .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-/* =========================================================
-   ■ イベント
-   ========================================================= */
 document.getElementById("detail-close").addEventListener("click", closeDetail);
 document.getElementById("detail-overlay").addEventListener("click", (e) => {
   if (e.target === e.currentTarget) closeDetail();
@@ -992,9 +1013,6 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeDetail();
 });
 
-/* =========================================================
-   ■ 初期化
-   ========================================================= */
 renderTabs();
 renderRecipes();
 </script>
