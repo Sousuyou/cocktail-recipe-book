@@ -3,11 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#f3f1ec">
+<meta name="theme-color" content="#f3f1ec" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14130f" media="(prefers-color-scheme: dark)">
 <title>Bar Soutsu カクテルレシピ帳</title>
+
+<!-- SNS・チャットでURLを共有したときの見栄え（OGP / Twitter Card） -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Bar Soutsu">
+<meta property="og:title" content="カクテルレシピ帳｜Bar Soutsu">
+<meta property="og:description" content="定番からシグネチャーまで、レシピと作り方を検索・参照できるデジタルレシピ帳です。">
+<meta property="og:url" content="https://sousuyou.github.io/cocktail-recipe-book/">
+<meta property="og:image" content="https://sousuyou.github.io/cocktail-recipe-book/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://sousuyou.github.io/cocktail-recipe-book/assets/og-image.png">
+
 <style>
   :root {
-    color-scheme: light;
+    color-scheme: light dark;
     --bg: #e9e9e5;
     --paper: #fbfaf6;
     --panel: #fbfaf6;
@@ -17,8 +31,27 @@
     --text: #161616;
     --muted: #6f6d67;
     --accent: #161616;
+    --on-accent: #ffffff;   /* accent色の上に乗せる文字色 */
     --red: #a72821;
     --shadow: 0 18px 42px rgba(30, 30, 27, 0.08);
+  }
+
+  /* ===== ダークモード（端末設定に自動追従） ===== */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14130f;
+      --paper: #1c1b16;
+      --panel: #1c1b16;
+      --panel-soft: #242219;
+      --line: #3a382f;
+      --line-strong: #6f6c5f;
+      --text: #ece9df;
+      --muted: #a09c8e;
+      --accent: #ece9df;
+      --on-accent: #14130f;
+      --red: #d8736c;
+      --shadow: 0 18px 42px rgba(0, 0, 0, 0.45);
+    }
   }
   * { box-sizing: border-box; }
   body {
@@ -42,7 +75,7 @@
   }
   .site-nav-link:last-child { border-right: 0; }
   .site-nav-link:hover { background: var(--panel-soft); }
-  .site-nav-link.active { background: var(--accent); color: #fff; }
+  .site-nav-link.active { background: var(--accent); color: var(--on-accent); }
   body.has-nav .app-shell { margin-top: 0; }
 
   /* ====== 外枠 ====== */
@@ -97,7 +130,7 @@
   }
   .tab:last-child { border-right: 0; }
   .tab:hover { background: var(--panel-soft); }
-  .tab.active { background: var(--accent); color: #fff; }
+  .tab.active { background: var(--accent); color: var(--on-accent); }
 
   /* ====== レシピカード一覧 ====== */
   .recipe-grid {
@@ -154,7 +187,7 @@
   .detail-close:hover { background: var(--panel-soft); }
   .detail-method-banner {
     display: flex; align-items: center; gap: 10px;
-    margin: 14px 0 0; padding: 10px 14px; background: var(--accent); color: #fff;
+    margin: 14px 0 0; padding: 10px 14px; background: var(--accent); color: var(--on-accent);
   }
   .detail-method-banner .method-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; }
   .detail-method-banner .method-value { font-size: 0.82rem; font-weight: 700; }
@@ -169,7 +202,7 @@
   .detail-steps li { counter-increment: steps; display: flex; gap: 12px; padding: 9px 0; font-size: 0.84rem; line-height: 1.65; border-bottom: 1px solid var(--line); }
   .detail-steps li::before {
     content: counter(steps); flex-shrink: 0; width: 22px; height: 22px;
-    background: var(--accent); color: #fff; display: grid; place-items: center;
+    background: var(--accent); color: var(--on-accent); display: grid; place-items: center;
     font-size: 0.66rem; font-weight: 700; margin-top: 2px;
   }
   .detail-note { margin-top: 14px; padding: 12px 14px; background: var(--panel-soft); border-left: 3px solid var(--line-strong); font-size: 0.78rem; line-height: 1.7; color: var(--muted); }
