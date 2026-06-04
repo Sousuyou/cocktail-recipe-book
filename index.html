@@ -19,6 +19,11 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://sousuyou.github.io/cocktail-recipe-book/assets/og-image.png">
 
+<!-- アプリ化（ホーム画面に追加・オフライン対応） -->
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icon.svg">
+
 <style>
   :root {
     color-scheme: light dark;
@@ -1903,6 +1908,14 @@ document.addEventListener("keydown", (e) => {
 
 renderTabs();
 renderRecipes();
+</script>
+<!-- アプリ化（ホーム画面に追加・オフライン対応） -->
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("service-worker.js");
+    });
+  }
 </script>
 </body>
 </html>

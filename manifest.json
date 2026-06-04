@@ -1,0 +1,18 @@
+{
+  "name": "Bar Soutsu カクテルレシピ帳",
+  "short_name": "レシピ帳",
+  "description": "Bar Soutsuのカクテルレシピ帳。レシピと作り方を検索・参照できます。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#15120f",
+  "theme_color": "#15120f",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

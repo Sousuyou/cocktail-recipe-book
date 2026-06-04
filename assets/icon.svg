@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="カクテルレシピ帳">
+  <rect width="512" height="512" rx="96" fill="#15120f"/>
+  <path d="M128 120h256l-96 128v110l60 30v34H164v-34l60-30V248L128 120Z" fill="#8bb58f"/>
+  <path d="M176 158h160l-52 70h-56l-52-70Z" fill="#2c251f"/>
+  <circle cx="330" cy="140" r="22" fill="#d8ad62"/>
+  <path d="M168 410h176" stroke="#f3ece2" stroke-width="22" stroke-linecap="round"/>
+</svg>
