@@ -213,6 +213,13 @@
   .detail-note { margin-top: 14px; padding: 12px 14px; background: var(--panel-soft); border-left: 3px solid var(--line-strong); font-size: 0.78rem; line-height: 1.7; color: var(--muted); }
   .detail-trivia { margin-top: 10px; padding: 14px; background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--red); font-size: 0.78rem; line-height: 1.75; color: var(--text); }
   .detail-trivia-label { display: block; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); margin-bottom: 6px; }
+  .detail-prep { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+  .detail-prep .prep-item { padding: 10px 12px; border: 1px solid var(--line); background: var(--panel-soft); }
+  .detail-prep .prep-label { display: block; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .detail-prep .prep-value { font-size: 0.82rem; font-weight: 700; line-height: 1.5; }
+  .detail-learn { display: block; margin-top: 12px; padding: 12px 14px; border: 1px solid var(--line-strong); background: var(--panel); text-decoration: none; color: var(--text); font-weight: 700; font-size: 0.78rem; transition: background 160ms ease; }
+  .detail-learn:hover { background: var(--panel-soft); }
+  @media (max-width: 480px) { .detail-prep { grid-template-columns: 1fr; } }
 
   .empty-state { padding: 60px 20px; text-align: center; color: var(--muted); font-size: 0.8rem; border: 1px solid var(--line); border-top: 0; margin-top: 16px; }
   footer { color: var(--muted); font-size: 0.64rem; line-height: 1.8; margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--line); }
@@ -282,6 +289,10 @@
       <span class="method-label">技法</span>
       <span class="method-value" id="detail-method"></span>
     </div>
+    <div class="detail-prep">
+      <div class="prep-item"><span class="prep-label">グラス</span><span class="prep-value" id="detail-glass">-</span></div>
+      <div class="prep-item"><span class="prep-label">ガーニッシュ</span><span class="prep-value" id="detail-garnish">-</span></div>
+    </div>
     <div class="detail-section-title">材料</div>
     <ul class="detail-ingredients" id="detail-ingredients"></ul>
     <div class="detail-section-title">作り方</div>
@@ -293,6 +304,7 @@
       <span class="detail-trivia-label">History &amp; Trivia</span>
       <span id="detail-trivia-text"></span>
     </div>
+    <a class="detail-learn" href="https://sousuyou.github.io/gin-textbook/" target="_blank" rel="noopener noreferrer">🥃 ジンの基礎をもっと学ぶ — ジン教本へ →</a>
   </div>
 </div>
 
@@ -1728,6 +1740,91 @@ const RECIPES = [
   },
 ];
 
+/* ── グラス・ガーニッシュの対応表（id→値）。既存レシピにマージして表示する ── */
+const PREP = {
+  "dry-martini": { glass: "カクテルグラス", garnish: "レモンピール／オリーブ" },
+  "negroni": { glass: "オールドファッションド（ロック）", garnish: "オレンジピール" },
+  "gimlet": { glass: "カクテルグラス", garnish: "ライム（任意）" },
+  "last-word": { glass: "カクテルグラス", garnish: "マラスキーノチェリー（任意）" },
+  "dirty-martini": { glass: "カクテルグラス", garnish: "オリーブ" },
+  "yukiguni": { glass: "カクテルグラス", garnish: "スノースタイル（砂糖）＋ミントチェリー" },
+  "clover-club": { glass: "カクテルグラス", garnish: "ラズベリー（任意）" },
+  "white-lady": { glass: "カクテルグラス", garnish: "なし（任意でレモンピール）" },
+  "aviation": { glass: "カクテルグラス", garnish: "マラスキーノチェリー" },
+  "bees-knees": { glass: "カクテルグラス", garnish: "レモンピール" },
+  "martinez": { glass: "カクテルグラス", garnish: "オレンジピール" },
+  "bronx": { glass: "カクテルグラス", garnish: "オレンジピール" },
+  "parisian": { glass: "カクテルグラス", garnish: "レモンピール（任意）" },
+  "vesper": { glass: "カクテルグラス", garnish: "レモンピール（細長く）" },
+  "corpse-reviver-2": { glass: "カクテルグラス", garnish: "オレンジピール（アブサンリンス）" },
+  "bramble": { glass: "ロック（クラッシュドアイス）", garnish: "レモンスライス＋ブラックベリー" },
+  "white-negroni": { glass: "オールドファッションド（ロック）", garnish: "レモンピール" },
+  "hanky-panky": { glass: "カクテルグラス", garnish: "オレンジピール" },
+  "alaska": { glass: "カクテルグラス", garnish: "レモンピール" },
+  "pink-gin": { glass: "カクテルグラス（小ぶり）", garnish: "なし" },
+  "paradise": { glass: "カクテルグラス", garnish: "オレンジピール" },
+  "spring-feeling": { glass: "カクテルグラス", garnish: "なし" },
+  "pink-lady": { glass: "カクテルグラス", garnish: "マラスキーノチェリー（任意）" },
+  "southside": { glass: "カクテルグラス", garnish: "ミントの葉" },
+  "fifty-fifty": { glass: "カクテルグラス", garnish: "オリーブ／レモンピール" },
+  "blue-moon": { glass: "カクテルグラス", garnish: "レモンピール" },
+  "gin-smash": { glass: "ロック（クラッシュドアイス）", garnish: "ミントの葉" },
+  "gin-fix": { glass: "ロック（クラッシュドアイス）", garnish: "レモンスライス＋季節のフルーツ" },
+  "gin-alexander": { glass: "カクテルグラス", garnish: "ナツメグ" },
+  "alexanders-sister": { glass: "カクテルグラス", garnish: "ナツメグ／ミント" },
+  "million-dollar": { glass: "カクテルグラス", garnish: "パイナップル（任意）" },
+  "dubonnet-cocktail": { glass: "カクテルグラス", garnish: "レモンピール" },
+  "derby": { glass: "カクテルグラス", garnish: "ミントの葉" },
+  "saturn": { glass: "カクテルグラス（または小ぶりサワー）", garnish: "ライムピール／エディブルフラワー" },
+  "casino": { glass: "カクテルグラス", garnish: "マラスキーノチェリー＋レモンピール" },
+  "perfect-martini": { glass: "カクテルグラス", garnish: "レモンピール／オリーブ" },
+  "tango": { glass: "カクテルグラス", garnish: "オレンジピール" },
+  "orange-blossom": { glass: "カクテルグラス", garnish: "オレンジスライス" },
+  "bijou": { glass: "カクテルグラス", garnish: "マラスキーノチェリー＋レモンピール" },
+  "gin-old-fashioned": { glass: "オールドファッションド（ロック）", garnish: "オレンジピール／レモンピール" },
+  "kiss-in-the-dark": { glass: "カクテルグラス", garnish: "なし" },
+  "elderflower-martini": { glass: "カクテルグラス", garnish: "レモンピール" },
+  "yuzu-gin-sour": { glass: "ロック／サワーグラス", garnish: "ゆずピール" },
+  "lucien-gaudin": { glass: "カクテルグラス", garnish: "オレンジピール" },
+  "jasmine": { glass: "カクテルグラス", garnish: "レモンピール" },
+  "gin-tonic": { glass: "ハイボール（タンブラー）", garnish: "なし（Bar Soutsuスタイル）" },
+  "tom-collins": { glass: "コリンズ（タンブラー）", garnish: "レモンスライス＋チェリー" },
+  "gin-basil-smash": { glass: "ロック／タンブラー", garnish: "バジルの葉" },
+  "gin-fizz": { glass: "タンブラー", garnish: "なし（正式スタイル）" },
+  "french-75": { glass: "シャンパンフルート", garnish: "レモンピール" },
+  "singapore-sling": { glass: "スリング／タンブラー", garnish: "パイナップル＋チェリー" },
+  "gin-buck": { glass: "タンブラー", garnish: "レモン" },
+  "ramos-gin-fizz": { glass: "タンブラー（細長）", garnish: "なし" },
+  "gin-sour": { glass: "サワーグラス／ロック", garnish: "レモンスライス＋チェリー" },
+  "elderflower-collins": { glass: "コリンズ（タンブラー）", garnish: "レモンスライス＋ミント" },
+  "kaikan-fizz": { glass: "タンブラー", garnish: "なし" },
+  "gin-daisy": { glass: "ゴブレット／タンブラー（クラッシュド）", garnish: "レモンスライス＋季節のフルーツ" },
+  "red-snapper": { glass: "タンブラー（ハイボール）", garnish: "セロリ＋レモン" },
+  "gin-sling": { glass: "タンブラー", garnish: "レモンピール／ナツメグ" },
+  "gin-rickey": { glass: "タンブラー", garnish: "ライム（搾り入れ）" },
+  "gin-mojito": { glass: "タンブラー（クラッシュド）", garnish: "ミントの葉＋ライム" },
+  "greyhound": { glass: "タンブラー", garnish: "グレープフルーツ（ソルティドッグは塩スノー）" },
+  "gin-cobbler": { glass: "ゴブレット（クラッシュド）", garnish: "季節のフルーツ＋ミント" },
+  "gin-horses-neck": { glass: "タンブラー", garnish: "レモンの皮らせん切り" },
+  "gin-screwdriver": { glass: "タンブラー", garnish: "オレンジスライス" },
+  "gin-mint-julep": { glass: "ジュレップカップ／タンブラー（クラッシュド）", garnish: "ミントの束" },
+  "gin-and-bitter-lemon": { glass: "タンブラー", garnish: "レモンスライス" },
+  "gin-sonic": { glass: "ハイボール（大ぶり）", garnish: "ライム（任意でハーブ）" },
+  "gin-highball": { glass: "ハイボール（タンブラー）", garnish: "レモンピール（任意）" },
+  "gin-lemonade": { glass: "タンブラー", garnish: "レモンスライス＋ミント" },
+  "dogs-nose": { glass: "パイント／タンブラー", garnish: "なし" },
+  "gin-and-apple": { glass: "タンブラー", garnish: "りんごスライス" },
+  "gin-spritz": { glass: "大ぶりワイングラス", garnish: "オレンジスライス＋オリーブ" },
+  "gin-hot-toddy": { glass: "耐熱グラス（ホット）", garnish: "レモンスライス＋クローブ＋シナモン" },
+  "gin-grapefruit-fizz": { glass: "タンブラー", garnish: "グレープフルーツスライス" },
+  "gin-earl-grey": { glass: "タンブラー／ロック", garnish: "レモンピール" },
+  "gin-milk-punch": { glass: "タンブラー／ワイングラス", garnish: "ナツメグ" },
+};
+RECIPES.forEach((r) => {
+  const p = PREP[r.id];
+  if (p) { r.glass = p.glass; r.garnish = p.garnish; }
+});
+
 /* ── カテゴリ定義 ── */
 const CATEGORIES = [
   { id: "all",      name: "すべて" },
@@ -1820,6 +1917,8 @@ function openDetail(id) {
   document.getElementById("detail-stars").innerHTML = starHtml(recipe.stars);
   document.getElementById("detail-tagline").textContent = recipe.tagline || "";
   document.getElementById("detail-method").textContent = recipe.method;
+  document.getElementById("detail-glass").textContent = recipe.glass || "—";
+  document.getElementById("detail-garnish").textContent = recipe.garnish || "—";
 
   document.getElementById("detail-ingredients").innerHTML = recipe.ingredients
     .map((i) => `<li><span>${escHtml(i.name)}</span><span class="amount">${escHtml(i.amount)}</span></li>`)
