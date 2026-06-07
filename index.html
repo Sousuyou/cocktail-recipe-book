@@ -232,6 +232,28 @@
     .detail-overlay { padding: 12px; }
     .detail-panel { padding: 18px; }
   }
+
+  /* ===== 習得状況フィルタ ===== */
+  .status-filter { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .sf-btn {
+    min-height: 34px; padding: 0 12px; border: 1px solid var(--line-strong);
+    background: var(--panel); color: var(--text); font-size: 0.72rem; font-weight: 700;
+    cursor: pointer; transition: background 140ms ease;
+  }
+  .sf-btn:hover { background: var(--panel-soft); }
+  .sf-btn.active { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+
+  /* ===== カードの覚えた/お気に入り表示 ===== */
+  .recipe-meta .rb-mark { font-size: 0.58rem; font-weight: 700; padding: 1px 6px; white-space: nowrap; }
+  .recipe-meta .rb-mark-fav { color: var(--red); }
+  .recipe-meta .rb-mark-learned { color: var(--on-accent); background: var(--green); }
+  .rb-status { display: flex; gap: 8px; margin-top: 12px; }
+  .rb-toggle {
+    flex: 1; min-height: 32px; border: 1px solid var(--line); background: var(--paper);
+    color: var(--muted); font-size: 0.68rem; font-weight: 700; cursor: pointer; transition: all 140ms ease;
+  }
+  .rb-toggle:hover { border-color: var(--line-strong); color: var(--text); }
+  .rb-toggle.on { background: var(--green); border-color: var(--green); color: var(--on-accent); }
 </style>
     <link rel="stylesheet" href="https://sousuyou.github.io/top/theme.css" />
 </head>
@@ -265,6 +287,11 @@
   </div>
 
   <nav class="tabs" id="tabs" aria-label="カテゴリ"></nav>
+  <div class="status-filter" id="status-filter" aria-label="習得状況フィルタ">
+    <button type="button" class="sf-btn active" data-sf="all">すべて</button>
+    <button type="button" class="sf-btn" data-sf="fav">★ お気に入りだけ</button>
+    <button type="button" class="sf-btn" data-sf="unlearned">未習得だけ</button>
+  </div>
   <div class="recipe-grid" id="recipe-grid" aria-label="レシピ一覧"></div>
 
   <footer>
@@ -1838,6 +1865,21 @@ const CATEGORIES = [
 
 let currentCategory = "all";
 let searchQuery = "";
+let statusFilter = "all"; /* all / fav / unlearned */
+let rbModalPushed = false; /* スマホ戻る用：擬似履歴を積んだか */
+
+/* 覚えた・お気に入りの保存（localStorage・file://でも落ちないようtry-catch） */
+function rbLoad(k) { try { return new Set(JSON.parse(localStorage.getItem(k) || "[]")); } catch (e) { return new Set(); } }
+function rbSave(k, s) { try { localStorage.setItem(k, JSON.stringify(Array.from(s))); } catch (e) {} }
+let favSet = rbLoad("rb_fav");
+let learnedSet = rbLoad("rb_learned");
+
+function toggleStatus(act, id) {
+  const set = act === "fav" ? favSet : learnedSet;
+  if (set.has(id)) { set.delete(id); } else { set.add(id); }
+  rbSave(act === "fav" ? "rb_fav" : "rb_learned", set);
+  renderRecipes();
+}
 
 function starHtml(n, cssClass) {
   return "★".repeat(n) + `<span class="dim">${"★".repeat(3 - n)}</span>`;
@@ -1845,6 +1887,8 @@ function starHtml(n, cssClass) {
 
 function getFilteredRecipes() {
   let list = RECIPES;
+  if (statusFilter === "fav") { list = list.filter((r) => favSet.has(r.id)); }
+  else if (statusFilter === "unlearned") { list = list.filter((r) => !learnedSet.has(r.id)); }
   if (currentCategory === "3" || currentCategory === "2" || currentCategory === "1") {
     list = list.filter((r) => String(r.stars) === currentCategory);
   } else if (currentCategory !== "all") {
@@ -1886,6 +1930,8 @@ function renderRecipes() {
       <div class="recipe-meta">
         <span class="recipe-cat">${escHtml(r.category)}</span>
         <span class="recipe-method-badge">${escHtml(r.method)}</span>
+        ${favSet.has(r.id) ? '<span class="rb-mark rb-mark-fav" title="お気に入り">★</span>' : ""}
+        ${learnedSet.has(r.id) ? '<span class="rb-mark rb-mark-learned" title="覚えた">覚えた</span>' : ""}
         <span class="recipe-stars">${starHtml(r.stars)}</span>
       </div>
       <h2 class="recipe-name">${highlight(r.name)}</h2>
@@ -1898,14 +1944,22 @@ function renderRecipes() {
           </li>
         `).join("")}
       </ul>
+      <div class="rb-status">
+        <button type="button" class="rb-toggle${learnedSet.has(r.id) ? " on" : ""}" data-act="learned" data-id="${r.id}">${learnedSet.has(r.id) ? "覚えた ✓" : "未習得"}</button>
+        <button type="button" class="rb-toggle${favSet.has(r.id) ? " on" : ""}" data-act="fav" data-id="${r.id}">${favSet.has(r.id) ? "★ お気に入り" : "☆ お気に入り"}</button>
+      </div>
     </article>
   `).join("");
 
   grid.querySelectorAll(".recipe-card").forEach((card) => {
-    card.addEventListener("click", () => openDetail(card.dataset.id));
+    card.addEventListener("click", (e) => { if (e.target.closest(".rb-toggle")) return; openDetail(card.dataset.id); });
     card.addEventListener("keydown", (e) => {
+      if (e.target.closest(".rb-toggle")) return;
       if (e.key === "Enter" || e.key === " ") openDetail(card.dataset.id);
     });
+  });
+  grid.querySelectorAll(".rb-toggle").forEach((btn) => {
+    btn.addEventListener("click", (e) => { e.stopPropagation(); toggleStatus(btn.dataset.act, btn.dataset.id); });
   });
 }
 
@@ -1954,12 +2008,28 @@ function openDetail(id) {
 
   document.getElementById("detail-overlay").classList.add("open");
   document.body.style.overflow = "hidden";
+  /* スマホの「戻る」で閉じられるよう、擬似履歴を1つ積む */
+  try { history.pushState({ rbModal: 1 }, ""); rbModalPushed = true; } catch (e) { rbModalPushed = false; }
 }
 
-function closeDetail() {
+function closeModalDOM() {
   document.getElementById("detail-overlay").classList.remove("open");
   document.body.style.overflow = "";
 }
+
+function closeDetail() {
+  /* 擬似履歴があれば history.back() で消費（→popstateで実際に閉じる）。履歴とUIを常に同期させる */
+  if (rbModalPushed) { rbModalPushed = false; try { history.back(); return; } catch (e) {} }
+  closeModalDOM();
+}
+
+/* 端末の「戻る」操作 */
+window.addEventListener("popstate", () => {
+  if (document.getElementById("detail-overlay").classList.contains("open")) {
+    rbModalPushed = false;
+    closeModalDOM();
+  }
+});
 
 function renderTabs() {
   const tabsEl = document.getElementById("tabs");
@@ -2004,6 +2074,16 @@ document.getElementById("detail-overlay").addEventListener("click", (e) => {
 });
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeDetail();
+});
+
+/* 習得状況フィルタ（すべて／お気に入り／未習得） */
+document.querySelectorAll("#status-filter .sf-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("#status-filter .sf-btn").forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+    statusFilter = btn.dataset.sf;
+    renderRecipes();
+  });
 });
 
 renderTabs();
