@@ -331,6 +331,45 @@
   .basics-body { margin: 0 0 8px; font-size: 0.8rem; line-height: 1.65; color: var(--text); }
   .basics-points { margin: 0; padding-left: 1.1em; }
   .basics-points li { font-size: 0.78rem; line-height: 1.6; margin-bottom: 4px; color: var(--muted); }
+
+  /* ===== 知識・技法ページ 共通 ===== */
+  /* 目次 */
+  .guide-toc { margin-top: 16px; padding: 14px 16px; border: 1px solid var(--line-strong); background: var(--panel); }
+  .toc-label { display: block; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .toc-links { display: flex; flex-wrap: wrap; gap: 8px; }
+  .toc-link {
+    font-size: 0.78rem; font-weight: 700; padding: 5px 12px; text-decoration: none;
+    border: 1px solid var(--line); background: var(--panel-soft); color: var(--text);
+  }
+  .toc-link:hover { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+  /* 章 */
+  .guide-chapter { margin-top: 32px; scroll-margin-top: 16px; }
+  .chapter-head { margin-bottom: 14px; }
+  .chapter-title { display: flex; align-items: center; gap: 10px; margin: 0; font-size: 1.2rem; font-weight: 700; }
+  .chapter-num {
+    flex-shrink: 0; width: 26px; height: 26px; display: grid; place-items: center;
+    background: var(--accent); color: var(--on-accent); font-size: 0.8rem; font-weight: 700; border-radius: 50%;
+  }
+  .chapter-sub { margin: 8px 0 0; font-size: 0.8rem; line-height: 1.7; color: var(--muted); }
+  /* ガイドカード内の補助テキスト */
+  .guide-en { margin: -2px 0 8px; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+  .guide-use { margin: 10px 0 0; font-size: 0.78rem; line-height: 1.6; }
+  .guide-use span { display: inline-block; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.06em; color: var(--on-accent); background: var(--accent); padding: 1px 7px; margin-right: 6px; vertical-align: middle; }
+  /* グラス章 */
+  .glass-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .glass-tag { font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border: 1px dashed var(--line); color: var(--muted); }
+  /* 材料章 */
+  .ingredient-list { display: grid; gap: 16px; }
+  .ingredient-block { border: 1px solid var(--line-strong); background: var(--panel); padding: 18px 20px; }
+  .ingredient-cat { margin: 0; font-size: 1rem; font-weight: 700; padding-bottom: 8px; border-bottom: 2px solid var(--line-strong); }
+  .ingredient-lead { margin: 10px 0 12px; font-size: 0.8rem; line-height: 1.7; color: var(--muted); }
+  .ingredient-items { margin: 0; }
+  .ingredient-items dt { font-size: 0.86rem; font-weight: 700; margin-top: 10px; }
+  .ingredient-items dd { margin: 3px 0 0; font-size: 0.82rem; line-height: 1.7; color: var(--text); }
+  /* 用語集 */
+  .glossary-list { margin: 0; border-top: 1px solid var(--line); }
+  .glossary-list dt { font-size: 0.86rem; font-weight: 700; margin-top: 12px; }
+  .glossary-list dd { margin: 3px 0 12px; padding-bottom: 12px; font-size: 0.82rem; line-height: 1.7; color: var(--muted); border-bottom: 1px solid var(--line); }
 </style>
     <link rel="stylesheet" href="https://sousuyou.github.io/top/theme.css" />
 </head>
@@ -360,7 +399,7 @@
   <!-- 表示モード切替（レシピ一覧 / 技法ガイド） -->
   <div class="mode-switch" id="mode-switch" role="tablist" aria-label="表示モード">
     <button type="button" class="mode-btn active" data-mode="recipe" role="tab" aria-selected="true">📖 レシピ一覧</button>
-    <button type="button" class="mode-btn" data-mode="technique" role="tab" aria-selected="false">🛠 カクテル技法</button>
+    <button type="button" class="mode-btn" data-mode="technique" role="tab" aria-selected="false">📚 知識・技法</button>
   </div>
 
   <!-- レシピ一覧ビュー -->
@@ -380,11 +419,20 @@
     <div class="recipe-grid" id="recipe-grid" aria-label="レシピ一覧"></div>
   </div>
 
-  <!-- 技法ガイドビュー -->
+  <!-- 知識・技法ビュー -->
   <div id="technique-view" hidden>
-    <p class="technique-intro">各技法について、目的・使う道具・手順・コツ・ありがちな失敗をまとめました。レシピを見るときや練習の参考にどうぞ。</p>
-    <section class="technique-basics" id="technique-basics"></section>
-    <div class="technique-list" id="technique-list"></div>
+    <p class="technique-intro">カクテルの基礎知識と技法をまとめた、スタッフ向けの学習ページです。気になる章から読んでも、上から順に読んでも構いません。</p>
+    <nav class="guide-toc" id="guide-toc" aria-label="目次"></nav>
+    <section class="guide-chapter" id="ch-basics"><div id="technique-basics"></div></section>
+    <section class="guide-chapter" id="ch-tools"><div id="guide-tools"></div></section>
+    <section class="guide-chapter" id="ch-glass"><div id="guide-glass"></div></section>
+    <section class="guide-chapter" id="ch-ingredients"><div id="guide-ingredients"></div></section>
+    <section class="guide-chapter" id="ch-balance"><div id="guide-balance"></div></section>
+    <section class="guide-chapter" id="ch-techniques">
+      <div id="technique-chapter-head"></div>
+      <div class="technique-list" id="technique-list"></div>
+    </section>
+    <section class="guide-chapter" id="ch-glossary"><div id="guide-glossary"></div></section>
   </div>
 
   <footer>

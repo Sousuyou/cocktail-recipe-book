@@ -1805,6 +1805,231 @@ const TECHNIQUE_BASICS = [
   },
 ];
 
+/* 章の目次（技法ガイドページ全体のナビ） */
+const GUIDE_CHAPTERS = [
+  { id: "ch-basics", label: "はじめに（氷・グラス・計量）" },
+  { id: "ch-tools", label: "道具・器具" },
+  { id: "ch-glass", label: "グラスの種類" },
+  { id: "ch-ingredients", label: "材料の基礎" },
+  { id: "ch-balance", label: "味の設計" },
+  { id: "ch-techniques", label: "カクテル技法" },
+  { id: "ch-glossary", label: "用語集" },
+];
+
+/* 道具・器具ガイド */
+const TOOLS_GUIDE = [
+  {
+    icon: "🍸", name: "シェイカー", en: "Shaker",
+    desc: "材料と氷を入れて振り、冷却・加水・乳化させる道具。3ピース（コブラー型）は漉し器内蔵で扱いやすく、2ピース（ボストン型）は容量が大きく冷却が速い。",
+    use: "シェイク全般。柑橘・卵白・クリームを使うカクテルに",
+  },
+  {
+    icon: "🥃", name: "ミキシンググラス", en: "Mixing Glass",
+    desc: "ステア専用の厚手グラス。氷と材料を入れ、バースプーンでかき混ぜて澄んだカクテルを作る。注ぎ口（リップ）付きが使いやすい。",
+    use: "ステアするカクテル（マティーニ、ネグローニなど）",
+  },
+  {
+    icon: "🥄", name: "バースプーン", en: "Bar Spoon",
+    desc: "柄が長くねじれた専用スプーン。ステアのほか、フロート（層づくり）や少量の計量（1杯＝約5ml＝1tsp）にも使う。",
+    use: "ステア、フロート、計量",
+  },
+  {
+    icon: "⚙️", name: "ストレーナー", en: "Strainer",
+    desc: "氷や固形物を漉す道具。バネ付きのホーソン（シェイカー用）、穴あきお玉型のジュレップ（ミキシンググラス用）、目の細かい茶こし（ダブルストレイン用）がある。",
+    use: "シェイク・ステアした液体を漉して注ぐ",
+  },
+  {
+    icon: "📏", name: "ジガー（メジャーカップ）", en: "Jigger",
+    desc: "材料を正確に量る砂時計型の計量カップ。大小2つの容量（例：30ml/45ml）を持つ。毎回同じ味を出すための必需品。",
+    use: "材料の計量全般",
+  },
+  {
+    icon: "🌿", name: "マドラー（ペストル）", en: "Muddler",
+    desc: "ハーブやフルーツを潰して香り・果汁を引き出す棒。叩く・押す力加減で仕上がりが変わる。",
+    use: "モヒート、スマッシュなど潰す系カクテル",
+  },
+  {
+    icon: "🍋", name: "ピーラー／ペティナイフ", en: "Peeler / Knife",
+    desc: "柑橘の皮を薄くむき、ピール（皮の精油を飛ばす香りづけ）やガーニッシュに使う。白いワタを避けてむくのがコツ。",
+    use: "ピール、ツイスト、飾り切り",
+  },
+  {
+    icon: "🧊", name: "アイスピック／アイストング", en: "Ice Pick / Tongs",
+    desc: "氷を割って形を整えるピックと、氷を清潔に扱うトング。大きく硬い氷を作ると薄まりにくいカクテルになる。",
+    use: "氷の加工・取り分け",
+  },
+  {
+    icon: "🌀", name: "ブレンダー（ミキサー）", en: "Blender",
+    desc: "クラッシュアイスごと攪拌してフローズンカクテルを作る。短く小刻みに回すのがコツ。",
+    use: "フローズン系カクテル",
+  },
+  {
+    icon: "💨", name: "アトマイザー（霧吹き）", en: "Atomizer",
+    desc: "アブサンなどをグラスに霧状に吹き付ける小瓶。リンス（香りづけ）を均一に、無駄なく行える。",
+    use: "リンス、香りづけ",
+  },
+];
+
+/* グラスの種類 */
+const GLASS_GUIDE = [
+  {
+    name: "カクテルグラス", en: "Cocktail / Martini",
+    cap: "90〜120ml", shape: "逆三角形・脚付き",
+    desc: "氷を入れないショートカクテルの定番。脚を持つことで手の熱が伝わらず、冷たさを保てる。マティーニグラスとも。",
+    examples: ["マティーニ", "ギムレット", "ホワイト・レディ"],
+  },
+  {
+    name: "クープグラス", en: "Coupe",
+    cap: "120〜180ml", shape: "浅い丸皿・脚付き",
+    desc: "口が広く浅い脚付きグラス。卵白入りや泡を見せたいカクテルに向く。こぼれにくく現代のバーで人気。",
+    examples: ["クローバー・クラブ", "サワー系", "デイジー"],
+  },
+  {
+    name: "ロックグラス", en: "Old Fashioned / Rocks",
+    cap: "240〜300ml", shape: "背が低く口が広い",
+    desc: "大きな氷を入れて楽しむ厚手のグラス。オン・ザ・ロックや、マドルするカクテルに。別名オールド・ファッションド・グラス。",
+    examples: ["ネグローニ（ロック）", "ジン・ロック", "オールド・ファッションド"],
+  },
+  {
+    name: "コリンズ／ハイボールグラス", en: "Collins / Highball",
+    cap: "300〜360ml", shape: "背の高い円筒",
+    desc: "炭酸を使うロングカクテル向けの細長いグラス。氷をたっぷり入れ、炭酸の爽快感を長く保つ。コリンズはやや細く背が高い。",
+    examples: ["ジン・トニック", "トム・コリンズ", "ジン・ハイボール"],
+  },
+  {
+    name: "コピータ／バルーングラス", en: "Copa de Balón",
+    cap: "500〜700ml", shape: "丸く大きな脚付き",
+    desc: "スペイン式ジントニックで使う大ぶりの丸いグラス。氷をたっぷり入れても余裕があり、ボタニカルの香りが立ちやすい。",
+    examples: ["スパニッシュ・ジントニック"],
+  },
+  {
+    name: "フルートグラス", en: "Flute",
+    cap: "150〜180ml", shape: "細長い脚付き",
+    desc: "スパークリングを使うカクテル向け。口が狭く、炭酸の泡を長く楽しめる。",
+    examples: ["フレンチ75", "スパークリング系"],
+  },
+  {
+    name: "銅マグ", en: "Copper Mug",
+    cap: "350〜450ml", shape: "取っ手付きの銅カップ",
+    desc: "モスコミュール等で使う銅製マグ。熱伝導が高く、キンキンに冷えた状態を保つ。見た目の印象も強い。",
+    examples: ["モスコミュール", "ジン・ジンジャー（応用）"],
+  },
+];
+
+/* 材料の基礎知識（カテゴリ別） */
+const INGREDIENTS_GUIDE = [
+  {
+    category: "ベーススピリッツ", lead: "カクテルの骨格をつくる蒸留酒。当店はすべてジンベースですが、他のベースも知っておくと違いが分かります。",
+    items: [
+      { name: "ジン", desc: "穀物のスピリッツにジュニパーベリーを軸としたボタニカル（草根木皮）で香りづけしたお酒。ボタニカルの個性で味が大きく変わり、カクテルの土台として最も表情豊か。" },
+      { name: "ウォッカ", desc: "クセを抑えてクリアに仕上げた蒸留酒。素材の味を邪魔せず、混ぜ物の風味を素直に活かす。" },
+      { name: "ラム", desc: "サトウキビ由来。ホワイトは軽快、ダークは樽熟成で甘く濃厚。" },
+      { name: "テキーラ", desc: "アガベ（竜舌蘭）由来。青々しい独特の風味でマルガリータなどに。" },
+      { name: "ウイスキー", desc: "穀物を樽で熟成。香ばしさとコクがあり、マンハッタンなどに。" },
+      { name: "ブランデー", desc: "果実（主にブドウ）の蒸留酒。芳醇な甘い香り。" },
+    ],
+  },
+  {
+    category: "ベルモット", lead: "ワインにハーブなどで香りづけした「フレーバードワイン（混成酒）」。カクテルに複雑さと奥行きを与えます。",
+    items: [
+      { name: "ドライ・ベルモット", desc: "辛口で軽やか。マティーニに不可欠。ジンの香りを引き立てる。" },
+      { name: "スイート・ベルモット", desc: "赤くて甘くハーバル。ネグローニやマンハッタンの要。" },
+    ],
+  },
+  {
+    category: "リキュール", lead: "スピリッツに果実・ハーブ・甘味などを加えたお酒。一滴で風味や色を足せます。",
+    items: [
+      { name: "オレンジ・リキュール", desc: "コアントロー、トリプルセック等。爽やかな柑橘の甘み。ホワイト・レディなどに。" },
+      { name: "カンパリ", desc: "ほろ苦く鮮やかな赤のビター・リキュール。ネグローニの主役。" },
+      { name: "エルダーフラワー", desc: "白い花の華やかな甘い香り。ジンと好相性。" },
+      { name: "クレーム・ド・カシス／ミュール", desc: "カシス（黒すぐり）やブラックベリーの濃厚な果実リキュール。" },
+    ],
+  },
+  {
+    category: "ビターズ・香りづけ", lead: "ごく少量で味を引き締める「カクテルの塩こしょう」。dash（ひと振り）単位で使います。",
+    items: [
+      { name: "アンゴスチュラ・ビターズ", desc: "スパイシーで複雑な定番アロマチックビターズ。" },
+      { name: "オレンジ・ビターズ", desc: "柑橘の華やかな苦味。マティーニの隠し味にも。" },
+      { name: "アブサン", desc: "アニス系の強い香草酒。リンス（香りづけ）に少量使う。" },
+    ],
+  },
+  {
+    category: "甘味・酸味・割り材", lead: "味のバランスを取る縁の下の力持ち。比率がカクテルの完成度を左右します。",
+    items: [
+      { name: "シュガーシロップ（ガムシロップ）", desc: "砂糖を水に溶かした甘味。砂糖より均一に混ざる。自家製は砂糖1:水1が基本。" },
+      { name: "柑橘果汁", desc: "レモン・ライムが定番。酸味と爽やかさの源。搾りたてが断然おいしい。" },
+      { name: "トニックウォーター", desc: "キナの苦味と甘みのある炭酸。ジントニックの相棒。" },
+      { name: "ソーダ（炭酸水）", desc: "無糖の炭酸。素材の味をそのまま伸ばす。" },
+    ],
+  },
+];
+
+/* 味の設計・バランス */
+const BALANCE_GUIDE = [
+  {
+    title: "4つの要素のバランス",
+    body: "カクテルは主に「甘味・酸味・苦味・アルコール感」のバランスで味が決まります。どれかが突出すると飲みにくく、互いを補い合うと一体感が生まれます。",
+    points: [
+      "甘味は酸味やアルコールの角を丸め、飲みやすくする",
+      "酸味は爽快感とキレを生み、甘さを引き締める",
+      "苦味（ビターズ等）は味に奥行きと大人っぽさを与える",
+      "アルコール感は強さの印象。加水と冷却でコントロールする",
+    ],
+  },
+  {
+    title: "サワーの黄金比",
+    body: "「スピリッツ・酸味・甘味」を組み合わせるサワースタイルは、比率の目安を覚えると応用が利きます。素材の甘酸っぱさで微調整します。",
+    points: [
+      "目安は スピリッツ2 : 柑橘1 : 甘味1（例：ジン45ml・レモン20ml・シロップ20ml）",
+      "甘さ控えめが好みなら甘味を減らす（2:1:0.75 など）",
+      "ライムはレモンより酸が強いので、やや控えめに",
+      "卵白を加えると角が取れ、口当たりがまろやかになる",
+    ],
+  },
+  {
+    title: "加水・温度・氷の役割",
+    body: "「薄める」ことは欠点ではなく、強い酒をなめらかにまとめる大切な工程。氷選びと混ぜ方で適度な加水と冷却を狙います。",
+    points: [
+      "冷えるほど甘味・香りは穏やかに、キレはシャープに感じられる",
+      "適度な加水でアルコールの刺激が和らぎ、香りが開く",
+      "大きく硬い氷はゆっくり溶け、薄まりにくい",
+      "提供グラスを冷やすと、最後の一口までおいしさが続く",
+    ],
+  },
+  {
+    title: "ショートとロング",
+    body: "提供スタイルの大きな二分類。飲む時間と温度の持続が異なります。",
+    points: [
+      "ショート：氷なし・少量・短時間で飲み切る（マティーニ、ギムレット）",
+      "ロング：氷入り・大ぶり・ゆっくり楽しむ（ジントニック、ハイボール）",
+      "ショートは温度が命。ぬるくなる前に飲み切る前提で量は控えめ",
+      "ロングは炭酸や氷の持続が大切。たっぷりの氷が結局おいしい",
+    ],
+  },
+];
+
+/* 用語集 */
+const GLOSSARY = [
+  { term: "ショートドリンク", desc: "氷を入れず、脚付きグラスで短時間に飲み切る少量のカクテル。" },
+  { term: "ロングドリンク", desc: "氷を入れた背の高いグラスで、時間をかけて楽しむカクテル。" },
+  { term: "ストレート／ニート", desc: "何も加えず、お酒そのものを常温で味わう飲み方。" },
+  { term: "オン・ザ・ロック", desc: "氷を入れたグラスに酒を注ぐ飲み方。" },
+  { term: "チェイサー", desc: "強い酒の合間に飲む水などの飲み物。口直しと酔いの調整に。" },
+  { term: "ダッシュ（dash）", desc: "ビターズ瓶などをひと振りした量。ごく少量の単位。" },
+  { term: "ドロップ（drop）", desc: "一滴。dashよりさらに少ない量。" },
+  { term: "tsp（バースプーン）", desc: "バースプーン1杯＝約5ml。小さじ感覚の計量単位。" },
+  { term: "ガーニッシュ", desc: "カクテルに添える飾り。柑橘・ハーブ・オリーブなど。香りや見た目のため。" },
+  { term: "ツイスト", desc: "柑橘の皮をひねって精油を飛ばす香りづけ。またはその皮そのもの。" },
+  { term: "ダブルストレイン", desc: "ストレーナーに加え茶こしを重ね、細かな氷片や果肉まで漉すこと。" },
+  { term: "リンス", desc: "グラス内に少量の酒を回しかけ、香りだけをまとわせて余分を捨てること。" },
+  { term: "フロート", desc: "比重を利用して液体を混ぜずに層状に浮かべること。" },
+  { term: "ドライ（辛口）", desc: "甘さが少ない味わい。マティーニで「ドライ」はベルモットが少ないこと。" },
+  { term: "アペリティフ", desc: "食前酒。食欲を促す軽めの一杯。" },
+  { term: "ディジェスティフ", desc: "食後酒。消化を助ける甘め・濃いめの一杯。" },
+  { term: "ボタニカル", desc: "ジンの香りづけに使う草根木皮（ジュニパー、柑橘皮、スパイスなど）の総称。" },
+  { term: "ビルド", desc: "提供グラスの中で直接材料を組み立てて作る技法。" },
+];
+
 const TECHNIQUES = [
   {
     name: "ステア", en: "Stir",
@@ -2173,15 +2398,31 @@ const TECHNIQUES = [
   },
 ];
 
-/* 前提知識セクション（氷・グラス・計量） */
+/* 章の見出し（全章で共通） */
+function chapterHead(num, title, sub) {
+  return `
+    <div class="chapter-head">
+      <h2 class="chapter-title"><span class="chapter-num">${num}</span>${escHtml(title)}</h2>
+      ${sub ? `<p class="chapter-sub">${escHtml(sub)}</p>` : ""}
+    </div>`;
+}
+
+/* 目次（章ジャンプ） */
+function renderGuideToc() {
+  const el = document.getElementById("guide-toc");
+  if (!el) return;
+  el.innerHTML = `
+    <span class="toc-label">目次</span>
+    <div class="toc-links">
+      ${GUIDE_CHAPTERS.map((c) => `<a class="toc-link" href="#${c.id}">${escHtml(c.label)}</a>`).join("")}
+    </div>`;
+}
+
+/* 第1章：前提知識（氷・グラス・計量） */
 function renderTechniqueBasics() {
   const el = document.getElementById("technique-basics");
   if (!el) return;
-  el.innerHTML = `
-    <div class="basics-head">
-      <h2 class="basics-title">はじめに：技法の前提知識</h2>
-      <p class="basics-sub">どの技法にも共通する「氷・グラス・計量」の基本。ここを押さえると、各技法の手順がぐっと理解しやすくなります。</p>
-    </div>
+  el.innerHTML = chapterHead("1", "はじめに（氷・グラス・計量）", "どの技法にも共通する基本。ここを押さえると、各技法の手順がぐっと理解しやすくなります。") + `
     <div class="basics-grid">
       ${TECHNIQUE_BASICS.map((b) => `
         <article class="basics-card">
@@ -2194,9 +2435,95 @@ function renderTechniqueBasics() {
   `;
 }
 
+/* 第2章：道具・器具ガイド */
+function renderToolsGuide() {
+  const el = document.getElementById("guide-tools");
+  if (!el) return;
+  el.innerHTML = chapterHead("2", "道具・器具", "カクテルづくりに使う基本の道具。何を・いつ使うかをまとめました。") + `
+    <div class="basics-grid">
+      ${TOOLS_GUIDE.map((t) => `
+        <article class="basics-card">
+          <div class="basics-card-head"><span class="basics-icon">${escHtml(t.icon)}</span><h3>${escHtml(t.name)}</h3></div>
+          <p class="guide-en">${escHtml(t.en)}</p>
+          <p class="basics-body">${escHtml(t.desc)}</p>
+          <p class="guide-use"><span>使う場面</span>${escHtml(t.use)}</p>
+        </article>
+      `).join("")}
+    </div>
+  `;
+}
+
+/* 第3章：グラスの種類 */
+function renderGlassGuide() {
+  const el = document.getElementById("guide-glass");
+  if (!el) return;
+  el.innerHTML = chapterHead("3", "グラスの種類", "グラスは味と印象を左右する大切な要素。容量・特徴と、向くカクテルをまとめました。") + `
+    <div class="basics-grid">
+      ${GLASS_GUIDE.map((g) => `
+        <article class="basics-card">
+          <div class="basics-card-head"><h3>${escHtml(g.name)}</h3></div>
+          <p class="guide-en">${escHtml(g.en)}</p>
+          <div class="glass-meta"><span class="glass-tag">容量 ${escHtml(g.cap)}</span><span class="glass-tag">${escHtml(g.shape)}</span></div>
+          <p class="basics-body">${escHtml(g.desc)}</p>
+          <div class="technique-examples">${g.examples.map((e) => `<span class="technique-chip">${escHtml(e)}</span>`).join("")}</div>
+        </article>
+      `).join("")}
+    </div>
+  `;
+}
+
+/* 第4章：材料の基礎知識 */
+function renderIngredientsGuide() {
+  const el = document.getElementById("guide-ingredients");
+  if (!el) return;
+  el.innerHTML = chapterHead("4", "材料の基礎", "カクテルを組み立てる素材たち。種類と役割を知ると、レシピの狙いが見えてきます。") + `
+    <div class="ingredient-list">
+      ${INGREDIENTS_GUIDE.map((c) => `
+        <article class="ingredient-block">
+          <h3 class="ingredient-cat">${escHtml(c.category)}</h3>
+          <p class="ingredient-lead">${escHtml(c.lead)}</p>
+          <dl class="ingredient-items">
+            ${c.items.map((i) => `<dt>${escHtml(i.name)}</dt><dd>${escHtml(i.desc)}</dd>`).join("")}
+          </dl>
+        </article>
+      `).join("")}
+    </div>
+  `;
+}
+
+/* 第5章：味の設計・バランス */
+function renderBalanceGuide() {
+  const el = document.getElementById("guide-balance");
+  if (!el) return;
+  el.innerHTML = chapterHead("5", "味の設計", "「おいしいバランス」には理由があります。味づくりの考え方をまとめました。") + `
+    <div class="basics-grid">
+      ${BALANCE_GUIDE.map((b) => `
+        <article class="basics-card">
+          <div class="basics-card-head"><h3>${escHtml(b.title)}</h3></div>
+          <p class="basics-body">${escHtml(b.body)}</p>
+          <ul class="basics-points">${b.points.map((p) => `<li>${escHtml(p)}</li>`).join("")}</ul>
+        </article>
+      `).join("")}
+    </div>
+  `;
+}
+
+/* 第7章：用語集 */
+function renderGlossary() {
+  const el = document.getElementById("guide-glossary");
+  if (!el) return;
+  el.innerHTML = chapterHead("7", "用語集", "メニューや会話でよく出るバー用語を、五十音まじりでまとめました。") + `
+    <dl class="glossary-list">
+      ${GLOSSARY.map((g) => `<dt>${escHtml(g.term)}</dt><dd>${escHtml(g.desc)}</dd>`).join("")}
+    </dl>
+  `;
+}
+
 function renderTechniques() {
   const listEl = document.getElementById("technique-list");
   if (!listEl) return;
+  const headEl = document.getElementById("technique-chapter-head");
+  if (headEl) headEl.innerHTML = chapterHead("6", "カクテル技法", "「どう混ぜるか」で味は変わります。各技法の目的・道具・手順・コツ・ありがちな失敗をまとめました。");
   listEl.innerHTML = TECHNIQUES.map((t) => `
     <article class="technique-card">
       <div class="technique-head">
@@ -2267,6 +2594,12 @@ function setupModeSwitch() {
 
 renderTabs();
 renderRecipes();
+renderGuideToc();
 renderTechniqueBasics();
+renderToolsGuide();
+renderGlassGuide();
+renderIngredientsGuide();
+renderBalanceGuide();
 renderTechniques();
+renderGlossary();
 setupModeSwitch();
