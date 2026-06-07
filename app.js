@@ -2555,6 +2555,7 @@ function setupModeSwitch() {
       recipeView.hidden = isTechnique;
       techniqueView.hidden = !isTechnique;
       if (countPanel) countPanel.style.visibility = isTechnique ? "hidden" : "";
+      window.scrollTo(0, 0); // 切替時は先頭から表示する
     });
   });
 }
