@@ -256,6 +256,56 @@
   }
   .rb-toggle:hover { border-color: var(--line-strong); color: var(--text); }
   .rb-toggle.on { background: var(--green); border-color: var(--green); color: var(--on-accent); }
+
+  /* ===== 表示モード切替（レシピ / 技法） ===== */
+  .mode-switch {
+    margin-top: 16px; display: flex; border: 1px solid var(--line-strong); background: var(--panel);
+  }
+  .mode-btn {
+    flex: 1; min-height: 44px; border: 0; border-right: 1px solid var(--line);
+    background: var(--panel); color: var(--text); font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 0.04em; cursor: pointer; transition: background 140ms ease;
+  }
+  .mode-btn:last-child { border-right: 0; }
+  .mode-btn:hover { background: var(--panel-soft); }
+  .mode-btn.active { background: var(--accent); color: var(--on-accent); }
+
+  /* ===== 技法ガイド ===== */
+  .technique-intro {
+    margin: 16px 0 0; padding: 14px 16px; background: var(--panel-soft);
+    border-left: 3px solid var(--line-strong); font-size: 0.8rem; line-height: 1.7; color: var(--muted);
+  }
+  .technique-list { margin-top: 16px; display: grid; gap: 16px; }
+  .technique-card {
+    border: 1px solid var(--line-strong); background: var(--panel); padding: 20px 22px;
+  }
+  .technique-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; border-bottom: 2px solid var(--line-strong); padding-bottom: 12px; margin-bottom: 14px; }
+  .technique-name { margin: 0; font-size: 1.15rem; font-weight: 700; }
+  .technique-en { font-size: 0.72rem; font-weight: 700; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .technique-tagline { margin: 6px 0 0; width: 100%; font-size: 0.8rem; color: var(--red); font-weight: 700; }
+  .technique-section { margin-top: 14px; }
+  .technique-section-title {
+    font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 6px; padding-bottom: 5px; border-bottom: 1px solid var(--line);
+  }
+  .technique-section p { margin: 0; font-size: 0.84rem; line-height: 1.75; }
+  .technique-steps { list-style: none; margin: 0; padding: 0; counter-reset: tsteps; }
+  .technique-steps li {
+    counter-increment: tsteps; display: flex; gap: 10px; padding: 7px 0;
+    font-size: 0.84rem; line-height: 1.65; border-bottom: 1px solid var(--line);
+  }
+  .technique-steps li::before {
+    content: counter(tsteps); flex-shrink: 0; width: 20px; height: 20px;
+    background: var(--accent); color: var(--on-accent); display: grid; place-items: center;
+    font-size: 0.64rem; font-weight: 700; margin-top: 2px;
+  }
+  .technique-tips { margin: 0; padding-left: 1.1em; }
+  .technique-tips li { font-size: 0.83rem; line-height: 1.7; margin-bottom: 4px; }
+  .technique-examples { display: flex; flex-wrap: wrap; gap: 6px; }
+  .technique-chip {
+    font-size: 0.72rem; font-weight: 700; padding: 3px 10px;
+    border: 1px solid var(--line); background: var(--panel-soft); color: var(--text);
+  }
 </style>
     <link rel="stylesheet" href="https://sousuyou.github.io/top/theme.css" />
 </head>
@@ -282,19 +332,34 @@
     </div>
   </section>
 
-  <div class="search-bar">
-    <input type="search" id="search-input" class="search-input"
-      placeholder="🔍　レシピ名・材料・キーワードで検索…（例：ライム、ステア、禁酒法）" autocomplete="off" />
-    <button class="search-clear" id="search-clear" aria-label="検索をクリア">✕</button>
+  <!-- 表示モード切替（レシピ一覧 / 技法ガイド） -->
+  <div class="mode-switch" id="mode-switch" role="tablist" aria-label="表示モード">
+    <button type="button" class="mode-btn active" data-mode="recipe" role="tab" aria-selected="true">📖 レシピ一覧</button>
+    <button type="button" class="mode-btn" data-mode="technique" role="tab" aria-selected="false">🛠 カクテル技法</button>
   </div>
 
-  <nav class="tabs" id="tabs" aria-label="カテゴリ"></nav>
-  <div class="status-filter" id="status-filter" aria-label="習得状況フィルタ">
-    <button type="button" class="sf-btn active" data-sf="all">すべて</button>
-    <button type="button" class="sf-btn" data-sf="fav">★ お気に入りだけ</button>
-    <button type="button" class="sf-btn" data-sf="unlearned">未習得だけ</button>
+  <!-- レシピ一覧ビュー -->
+  <div id="recipe-view">
+    <div class="search-bar">
+      <input type="search" id="search-input" class="search-input"
+        placeholder="🔍　レシピ名・材料・キーワードで検索…（例：ライム、ステア、禁酒法）" autocomplete="off" />
+      <button class="search-clear" id="search-clear" aria-label="検索をクリア">✕</button>
+    </div>
+
+    <nav class="tabs" id="tabs" aria-label="カテゴリ"></nav>
+    <div class="status-filter" id="status-filter" aria-label="習得状況フィルタ">
+      <button type="button" class="sf-btn active" data-sf="all">すべて</button>
+      <button type="button" class="sf-btn" data-sf="fav">★ お気に入りだけ</button>
+      <button type="button" class="sf-btn" data-sf="unlearned">未習得だけ</button>
+    </div>
+    <div class="recipe-grid" id="recipe-grid" aria-label="レシピ一覧"></div>
   </div>
-  <div class="recipe-grid" id="recipe-grid" aria-label="レシピ一覧"></div>
+
+  <!-- 技法ガイドビュー -->
+  <div id="technique-view" hidden>
+    <p class="technique-intro">カクテルの味わいは「何を混ぜるか」だけでなく「どう混ぜるか」で決まります。各技法の目的と手順を理解すれば、レシピの一行一行に込められた意図が見えてきます。</p>
+    <div class="technique-list" id="technique-list"></div>
+  </div>
 
   <footer>
     ★重要度：★★★＝必須 ／ ★★＝標準 ／ ★＝知識として。ショートは合計60ml・ロングはジン30ml基準。
