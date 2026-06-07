@@ -306,6 +306,31 @@
     font-size: 0.72rem; font-weight: 700; padding: 3px 10px;
     border: 1px solid var(--line); background: var(--panel-soft); color: var(--text);
   }
+  .technique-chip.tool { background: transparent; border-style: dashed; color: var(--muted); }
+  .technique-impact {
+    margin: 0; font-size: 0.83rem; line-height: 1.7; padding: 10px 12px;
+    background: var(--panel-soft); border-left: 3px solid var(--accent);
+  }
+  .technique-mistakes { margin: 0; padding-left: 1.1em; list-style: none; }
+  .technique-mistakes li {
+    position: relative; font-size: 0.83rem; line-height: 1.7; margin-bottom: 4px; padding-left: 1.1em;
+  }
+  .technique-mistakes li::before {
+    content: "✕"; position: absolute; left: 0; color: var(--red); font-weight: 700;
+  }
+  /* 前提知識セクション */
+  .technique-basics { margin-top: 18px; }
+  .basics-head { margin-bottom: 12px; }
+  .basics-title { margin: 0; font-size: 1rem; font-weight: 700; }
+  .basics-sub { margin: 6px 0 0; font-size: 0.78rem; line-height: 1.7; color: var(--muted); }
+  .basics-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .basics-card { border: 1px solid var(--line); background: var(--panel-soft); padding: 14px 16px; }
+  .basics-card-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .basics-icon { font-size: 1.2rem; }
+  .basics-card-head h3 { margin: 0; font-size: 0.92rem; font-weight: 700; }
+  .basics-body { margin: 0 0 8px; font-size: 0.8rem; line-height: 1.65; color: var(--text); }
+  .basics-points { margin: 0; padding-left: 1.1em; }
+  .basics-points li { font-size: 0.78rem; line-height: 1.6; margin-bottom: 4px; color: var(--muted); }
 </style>
     <link rel="stylesheet" href="https://sousuyou.github.io/top/theme.css" />
 </head>
@@ -358,6 +383,7 @@
   <!-- 技法ガイドビュー -->
   <div id="technique-view" hidden>
     <p class="technique-intro">カクテルの味わいは「何を混ぜるか」だけでなく「どう混ぜるか」で決まります。各技法の目的と手順を理解すれば、レシピの一行一行に込められた意図が見えてきます。</p>
+    <section class="technique-basics" id="technique-basics"></section>
     <div class="technique-list" id="technique-list"></div>
   </div>
 
