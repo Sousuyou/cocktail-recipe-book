@@ -1,10 +1,12 @@
 // Bar Soutsu カクテルレシピ帳 — Service Worker
 // 更新方針: ページ本体(HTML)とJSONは「ネットワーク優先」で常に最新を取得し、
 //   オフライン時のみキャッシュを使う。画像などは「キャッシュ優先」で高速表示。
-const CACHE_NAME = "recipe-book-v2";
+const CACHE_NAME = "recipe-book-v3";
 const CACHE_FILES = [
   "./",
   "./index.html",
+  "./app.js",
+  "./boot.js",
   "./manifest.json",
   "./assets/icon.svg",
   "./assets/og-image.png",
