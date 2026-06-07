@@ -1813,7 +1813,6 @@ const GUIDE_CHAPTERS = [
   { id: "ch-ingredients", label: "材料の基礎" },
   { id: "ch-balance", label: "味の設計" },
   { id: "ch-techniques", label: "カクテル技法" },
-  { id: "ch-glossary", label: "用語集" },
 ];
 
 /* 道具・器具ガイド */
@@ -2006,28 +2005,6 @@ const BALANCE_GUIDE = [
       "ロングは炭酸や氷の持続が大切。たっぷりの氷が結局おいしい",
     ],
   },
-];
-
-/* 用語集 */
-const GLOSSARY = [
-  { term: "ショートドリンク", desc: "氷を入れず、脚付きグラスで短時間に飲み切る少量のカクテル。" },
-  { term: "ロングドリンク", desc: "氷を入れた背の高いグラスで、時間をかけて楽しむカクテル。" },
-  { term: "ストレート／ニート", desc: "何も加えず、お酒そのものを常温で味わう飲み方。" },
-  { term: "オン・ザ・ロック", desc: "氷を入れたグラスに酒を注ぐ飲み方。" },
-  { term: "チェイサー", desc: "強い酒の合間に飲む水などの飲み物。口直しと酔いの調整に。" },
-  { term: "ダッシュ（dash）", desc: "ビターズ瓶などをひと振りした量。ごく少量の単位。" },
-  { term: "ドロップ（drop）", desc: "一滴。dashよりさらに少ない量。" },
-  { term: "tsp（バースプーン）", desc: "バースプーン1杯＝約5ml。小さじ感覚の計量単位。" },
-  { term: "ガーニッシュ", desc: "カクテルに添える飾り。柑橘・ハーブ・オリーブなど。香りや見た目のため。" },
-  { term: "ツイスト", desc: "柑橘の皮をひねって精油を飛ばす香りづけ。またはその皮そのもの。" },
-  { term: "ダブルストレイン", desc: "ストレーナーに加え茶こしを重ね、細かな氷片や果肉まで漉すこと。" },
-  { term: "リンス", desc: "グラス内に少量の酒を回しかけ、香りだけをまとわせて余分を捨てること。" },
-  { term: "フロート", desc: "比重を利用して液体を混ぜずに層状に浮かべること。" },
-  { term: "ドライ（辛口）", desc: "甘さが少ない味わい。マティーニで「ドライ」はベルモットが少ないこと。" },
-  { term: "アペリティフ", desc: "食前酒。食欲を促す軽めの一杯。" },
-  { term: "ディジェスティフ", desc: "食後酒。消化を助ける甘め・濃いめの一杯。" },
-  { term: "ボタニカル", desc: "ジンの香りづけに使う草根木皮（ジュニパー、柑橘皮、スパイスなど）の総称。" },
-  { term: "ビルド", desc: "提供グラスの中で直接材料を組み立てて作る技法。" },
 ];
 
 const TECHNIQUES = [
@@ -2508,16 +2485,6 @@ function renderBalanceGuide() {
   `;
 }
 
-/* 第7章：用語集 */
-function renderGlossary() {
-  const el = document.getElementById("guide-glossary");
-  if (!el) return;
-  el.innerHTML = chapterHead("7", "用語集", "メニューや会話でよく出るバー用語を、五十音まじりでまとめました。") + `
-    <dl class="glossary-list">
-      ${GLOSSARY.map((g) => `<dt>${escHtml(g.term)}</dt><dd>${escHtml(g.desc)}</dd>`).join("")}
-    </dl>
-  `;
-}
 
 function renderTechniques() {
   const listEl = document.getElementById("technique-list");
@@ -2601,5 +2568,4 @@ renderGlassGuide();
 renderIngredientsGuide();
 renderBalanceGuide();
 renderTechniques();
-renderGlossary();
 setupModeSwitch();
