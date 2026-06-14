@@ -3,7 +3,7 @@
   "short_name": "レシピ帳",
   "description": "Bar Soutsuのカクテルレシピ帳。レシピと作り方を検索・参照できます。",
   "start_url": "./index.html",
-  "scope": "/",
+  "scope": "/cocktail-recipe-book/",
   "id": "/cocktail-recipe-book/",
   "display": "standalone",
   "background_color": "#15120f",
